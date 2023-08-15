@@ -62,7 +62,7 @@ function ProductTable({ showAdvanceSearch = false }) {
 
   const handleDelete = useCallback(
     (item) => {
-      dispatch(setDeleteId(item.id));
+      dispatch(setDeleteId(item.slug));
     },
     [dispatch]
   );

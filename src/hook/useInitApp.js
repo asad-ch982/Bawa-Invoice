@@ -28,23 +28,24 @@ const useInitApp = () => {
   const dispatch = useDispatch();
   const { setInitLoading } = useAppContext();
   const setInvoices =async()=>{
-    const response = await fetch("http://localhost:3000/api/getinvoices",{
+    const response = await fetch("https://bawa-projects.vercel.app/api/getinvoices",{
       method:'POST',
-      mode:"no-cors",
+      // mode:"no-cors",
       headers:{
         'content-type':'application/json'
       }
     })
+   
     const json = await response.json()
     const data = json.data
-    
+    console.log(data,response)
     return data
     
   }
   const setProducts =async()=>{
     const response = await fetch("http://localhost:3000/api/getprod",{
       method:'POST',
-      mode:"no-cors",
+      // mode:"no-cors",
       headers:{
         'content-type':'application/json'
       }
