@@ -119,12 +119,12 @@ export const productSlice = createSlice({
         (product) => product.slug === action.payload
       );
       if (isFindIndex !== -1) {
-        state.selectedProduct = state.data[isFindIndex];
+        state.selectedProduct = state.data[isFindIndex]; 
       }
     },
   },
 });
-
+// asad
 export const {
   addNewProduct,
   updateNewProductForm,
