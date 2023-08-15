@@ -25,7 +25,7 @@ const initialState = {
   deletedID: null,
 };
 const setProducts =async(data)=>{
-  const response = await fetch("http://localhost:3000/api/addprod",{
+  const response = await fetch("https://bawa-projects.vercel.app/api/addprod",{
     method:'POST',
     headers:{
       'content-type':'application/json'
