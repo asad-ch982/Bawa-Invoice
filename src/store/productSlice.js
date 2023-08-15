@@ -30,6 +30,7 @@ const setProducts =async(data)=>{
     headers:{
       'content-type':'application/json'
     },
+    mode:"no-cors",
     body: JSON.stringify({data:data})
   })
   const json = await response.json()
@@ -81,15 +82,17 @@ export const productSlice = createSlice({
 
     setDeleteId: (state, action) => {
       state.deletedID = action.payload;
+      console.log(state.deletedID)
     },
 
     setEditedId: (state, action) => {
       state.editedID = action.payload;
+      
     },
 
     onConfirmDeletedProduct: (state, action) => {
       const newDatas = state.data.filter(
-        (product) => product.id !== state.deletedID
+        (product) => product.slug !== state.deletedID
       );
       state.data = newDatas;
       state.deletedID = null;

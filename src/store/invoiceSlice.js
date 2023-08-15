@@ -56,6 +56,7 @@ const initialState = {
 const setInvoices =async(data)=>{
   const response = await fetch("https://bawa-projects.vercel.app/api/invoice",{
     method:'POST',
+    mode:"no-cors",
     headers:{
       'content-type':'application/json'
     },
@@ -66,6 +67,7 @@ const setInvoices =async(data)=>{
 const delInvoices =async(data)=>{
   const response = await fetch("https://bawa-projects.vercel.app/api/delInvoice",{
     method:'POST',
+    mode:"no-cors",
     headers:{
       'content-type':'application/json'
     },

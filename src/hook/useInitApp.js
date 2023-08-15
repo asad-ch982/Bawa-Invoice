@@ -30,6 +30,7 @@ const useInitApp = () => {
   const setInvoices =async()=>{
     const response = await fetch("http://localhost:3000/api/getinvoices",{
       method:'POST',
+      mode:"no-cors",
       headers:{
         'content-type':'application/json'
       }
@@ -43,6 +44,7 @@ const useInitApp = () => {
   const setProducts =async()=>{
     const response = await fetch("http://localhost:3000/api/getprod",{
       method:'POST',
+      mode:"no-cors",
       headers:{
         'content-type':'application/json'
       }
