@@ -43,7 +43,7 @@ const useInitApp = () => {
     
   }
   const setProducts =async()=>{
-    const response = await fetch("http://localhost:3000/api/getprod",{
+    const response = await fetch("https://invoice-data.vercel.app/getprod",{
       method:'POST',
       // mode:"no-cors",
       headers:{
