@@ -62,7 +62,7 @@ const setInvoices =async(data)=>{
     },
     body: JSON.stringify({data:data})
   })
-  const json = await response.json()
+  
 }
 const delInvoices =async(data)=>{
   const response = await fetch("https://bawa-projects.vercel.app/api/delInvoice",{

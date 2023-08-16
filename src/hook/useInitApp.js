@@ -28,7 +28,7 @@ const useInitApp = () => {
   const dispatch = useDispatch();
   const { setInitLoading } = useAppContext();
   const setInvoices =async()=>{
-    const response = await fetch("https://bawa-projects.vercel.app/api/getinvoices",{
+    const response = await fetch("https://invoice-data.vercel.app/getinvoices",{
       method:'POST',
       // mode:"no-cors",
       headers:{
