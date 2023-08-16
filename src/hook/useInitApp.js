@@ -38,7 +38,6 @@ const useInitApp = () => {
    
     const json = await response.json()
     const data = json.data
-    console.log(data,response)
     return data
     
   }

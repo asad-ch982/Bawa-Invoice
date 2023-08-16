@@ -41,7 +41,6 @@ export const productSlice = createSlice({
     addNewProduct: (state, action) => {
       const newDatas = [...state.data, action.payload];
       state.data = newDatas;
-      console.log(action.payload)
       localforage.setItem(PRODUCTS_KEY, newDatas);
       setProducts(action.payload)
 
@@ -81,7 +80,6 @@ export const productSlice = createSlice({
 
     setDeleteId: (state, action) => {
       state.deletedID = action.payload;
-      console.log(state.deletedID)
     },
 
     setEditedId: (state, action) => {
