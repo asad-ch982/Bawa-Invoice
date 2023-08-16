@@ -54,7 +54,7 @@ const initialState = {
   },
 };
 const setInvoices =async(data)=>{
-  const response = await fetch("http://localhost:5000/invoice",{
+  const response = await fetch("https://invoice-data.vercel.app/invoice",{
     method:'POST',
   
     headers:{

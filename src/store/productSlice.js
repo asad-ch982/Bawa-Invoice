@@ -30,7 +30,6 @@ const setProducts =async(data)=>{
     headers:{
       'content-type':'application/json'
     },
-    mode:"no-cors",
     body: JSON.stringify({data:data})
   })
   const json = await response.json()
