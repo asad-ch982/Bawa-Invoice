@@ -54,13 +54,15 @@ const initialState = {
   },
 };
 const setInvoices =async(invoice,invoicedetail)=>{
+  var d = new Date(Date.now());
+  const date= d.toLocaleDateString('en-GB');
   const response = await fetch("https://invoice-data.vercel.app/invoice",{
     method:'POST',
   
     headers:{
       'content-type':'application/json'
     },
-    body: JSON.stringify({invoice:invoice,invoicedetail:invoicedetail})
+    body: JSON.stringify({invoice:invoice,invoicedetail:invoicedetail,date:date})
   })
   
 }
