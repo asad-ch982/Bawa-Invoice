@@ -69,7 +69,7 @@ function ProductTable({ showAdvanceSearch = false }) {
 
   const handleEdit = useCallback(
     (item) => {
-      dispatch(setEditedId(item.id));
+      dispatch(setEditedId(item.slug));
     },
     [dispatch]
   );

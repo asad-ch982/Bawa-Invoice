@@ -97,7 +97,7 @@ function ProductEditModal(props) {
     if (editedID !== null) {
       setAnimate(true);
       const isFindIndex = products.findIndex(
-        (client) => client.id === editedID
+        (client) => client.slug === editedID
       );
       if (isFindIndex !== -1) {
         setProductForm({ ...products[isFindIndex] });
@@ -181,6 +181,27 @@ function ProductEditModal(props) {
                                 }
                                 value={productForm.name}
                                 onChange={(e) => handlerProductValue(e, "name")}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        <div className="mt-2">
+                          <div className="font-title text-sm text-default-color">
+                            Available Qty
+                          </div>
+                          <div className="flex">
+                            <div className="flex-1">
+                              <input
+                                autoComplete="nope"
+                                placeholder="Product Name"
+                                type="text"
+                                className={
+                                  !validForm.name && isTouched
+                                    ? defaultInputInvalidStyle
+                                    : defaultInputStyle
+                                }
+                                value={productForm.availableQty}
+                                onChange={(e) => handlerProductValue(e, "availableQty")}
                               />
                             </div>
                           </div>

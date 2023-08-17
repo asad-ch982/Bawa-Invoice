@@ -34,6 +34,26 @@ const setProducts =async(data)=>{
   })
   const json = await response.json()
 }
+const delProducts =async(data)=>{
+  const response = await fetch("https://invoice-data.vercel.app/delprod",{
+    method:'POST',
+    headers:{
+      'content-type':'application/json'
+    },
+    body: JSON.stringify({slug:data})
+  })
+  const json = await response.json()
+}
+const updateProducts =async(prod)=>{
+  const response = await fetch("https://invoice-data.vercel.app/updateprod",{
+    method:'POST',
+    headers:{
+      'content-type':'application/json'
+    },
+    body: JSON.stringify({prod:prod})
+  })
+  const json = await response.json()
+}
 export const productSlice = createSlice({
   name: "products",
   initialState,
@@ -91,6 +111,7 @@ export const productSlice = createSlice({
       const newDatas = state.data.filter(
         (product) => product.slug !== state.deletedID
       );
+      delProducts(state.deletedID)
       state.data = newDatas;
       state.deletedID = null;
       localforage.setItem(PRODUCTS_KEY, newDatas);
@@ -98,8 +119,10 @@ export const productSlice = createSlice({
 
     onConfirmEditProduct: (state, action) => {
       const isFindIndex = state.data.findIndex(
-        (product) => product.id === state.editedID
+        (product) => product.slug === state.editedID
       );
+      console.log(state.editedID,action.payload)
+      updateProducts(action.payload)
       if (isFindIndex !== -1) {
         state.data[isFindIndex] = { ...action.payload };
       }

@@ -53,8 +53,19 @@ const initialState = {
     taxes: [],
   },
 };
-const setInvoices =async(data)=>{
+const setInvoices =async(invoice,invoicedetail)=>{
   const response = await fetch("https://invoice-data.vercel.app/invoice",{
+    method:'POST',
+  
+    headers:{
+      'content-type':'application/json'
+    },
+    body: JSON.stringify({invoice:invoice,invoicedetail:invoicedetail})
+  })
+  
+}
+const updateStatus =async(data)=>{
+  const response = await fetch("https://invoice-data.vercel.app/updateStatus",{
     method:'POST',
   
     headers:{
@@ -65,7 +76,7 @@ const setInvoices =async(data)=>{
   
 }
 const delInvoices =async(data)=>{
-  const response = await fetch("https://invoice-data.vercel.app/delInvoice",{
+  const response = await fetch("https://invoice-data.vercel.app/delinvoice",{
     method:'POST',
 
     headers:{
@@ -75,6 +86,17 @@ const delInvoices =async(data)=>{
   })
   const json = await response.json()
 }
+// const InvoicesDetail =async(data)=>{
+//   const response = await fetch("https://invoice-data.vercel.app/invoicedetail",{
+//     method:'POST',
+
+//     headers:{
+//       'content-type':'application/json'
+//     },
+//     body: JSON.stringify({data:data})
+//   })
+//   const json = await response.json()
+// }
 export const invoiceSlice = createSlice({
   name: "invoices",
   initialState,
@@ -84,7 +106,8 @@ export const invoiceSlice = createSlice({
     },
 
     setAllInvoiceDetailList: (state, action) => {
-      state.detailList = [...action.payload];
+      state.detailList = action.payload;
+      console.log(state.detailList)
     },
 
     setNewInvoices: (state, action) => {
@@ -115,12 +138,13 @@ export const invoiceSlice = createSlice({
 
       const updateState = [...state.data, newInvoice];
       state.data = updateState;
-      // localforage.setItem(INVOICES_KEY, updateState);
+      setInvoices(newInvoice,{ ...payload, id })
       
-      setInvoices(newInvoice)
+      // InvoicesDetail(action.payload)
 
       const newDetailList = [...state.detailList, { ...payload, id }];
       state.detailList = newDetailList;
+      console.log(newDetailList)
       localforage.setItem(INVOICE_DETAILS, newDetailList);
     },
 
@@ -157,8 +181,8 @@ export const invoiceSlice = createSlice({
       );
 
       state.deletedID = null;
-      localforage.setItem(INVOICES_KEY, newDatas);
-      localforage.setItem(INVOICE_DETAILS, newDetails);
+      // localforage.setItem(INVOICES_KEY, newDatas);
+      // localforage.setItem(INVOICE_DETAILS, newDetails);
     },
 
     onConfirmEditInvoice: (state, action) => {
@@ -197,35 +221,36 @@ export const invoiceSlice = createSlice({
         createdDate,
         clientDetail,
       } = action.payload;
+console.log(action.payload)
+updateStatus(action.payload)
+      // const findIndexOfList = state.data.findIndex(
+      //   (product) => product.id === id
+      // );
 
-      const findIndexOfList = state.data.findIndex(
-        (product) => product.id === id
-      );
+      // const newInvoice = {
+      //   id,
+      //   invoiceNo,
+      //   statusIndex,
+      //   statusName,
+      //   totalAmount,
+      //   dueDate,
+      //   createdDate,
+      //   clientName: clientDetail?.name,
+      // };
 
-      const newInvoice = {
-        id,
-        invoiceNo,
-        statusIndex,
-        statusName,
-        totalAmount,
-        dueDate,
-        createdDate,
-        clientName: clientDetail?.name,
-      };
+      // if (findIndexOfList !== -1) {
+      //   state.data[findIndexOfList] = { ...newInvoice };
+      // }
+      // const findIndexOfDetail = state.detailList.findIndex(
+      //   (product) => product.id === id
+      // );
 
-      if (findIndexOfList !== -1) {
-        state.data[findIndexOfList] = { ...newInvoice };
-      }
-      const findIndexOfDetail = state.detailList.findIndex(
-        (product) => product.id === id
-      );
+      // if (findIndexOfDetail !== -1) {
+      //   state.detailList[findIndexOfDetail] = { ...action.payload };
+      // }
 
-      if (findIndexOfDetail !== -1) {
-        state.detailList[findIndexOfDetail] = { ...action.payload };
-      }
-
-      localforage.setItem(INVOICES_KEY, [...state.data]);
-      localforage.setItem(INVOICE_DETAILS, [...state.detailList]);
+      // localforage.setItem(INVOICES_KEY, [...state.data]);
+      // localforage.setItem(INVOICE_DETAILS, [...state.detailList]);
     },
 
     setSettingModalOpen: (state, action) => {

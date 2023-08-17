@@ -18,7 +18,36 @@ const initialState = {
   editedID: null,
   deletedID: null,
 };
-
+const setClients =async(client)=>{
+  const response = await fetch("https://invoice-data.vercel.app/addclient",{
+    method:'POST',
+    // mode:"no-cors",
+    headers:{
+      'content-type':'application/json'
+    },
+    body: JSON.stringify({client:client})
+  })
+}
+const delClient =async(client)=>{
+  const response = await fetch("https://invoice-data.vercel.app/delclient",{
+    method:'POST',
+    // mode:"no-cors",
+    headers:{
+      'content-type':'application/json'
+    },
+    body: JSON.stringify({id:client})
+  })
+}
+const updateClient =async(client)=>{
+  const response = await fetch("https://invoice-data.vercel.app/updateclient",{
+    method:'POST',
+    // mode:"no-cors",
+    headers:{
+      'content-type':'application/json'
+    },
+    body: JSON.stringify({client:client})
+  })
+}
 export const clientsSlice = createSlice({
   name: "clients",
   initialState,
@@ -26,7 +55,7 @@ export const clientsSlice = createSlice({
     addNewClient: (state, action) => {
       const newDatas = [...state.data, action.payload];
       state.data = newDatas;
-      localforage.setItem(CLIENTS_KEY, newDatas);
+      setClients(action.payload)
 
       const reNewForm = {
         id: nanoid(),
@@ -67,9 +96,10 @@ export const clientsSlice = createSlice({
       const newDatas = state.data.filter(
         (client) => client.id !== state.deletedID
       );
+      console.log(state.deletedID)
+      delClient(state.deletedID)
       state.data = newDatas;
       state.deletedID = null;
-      localforage.setItem(CLIENTS_KEY, newDatas);
     },
 
     onConfirmEditClient: (state, action) => {
@@ -79,6 +109,8 @@ export const clientsSlice = createSlice({
       if (isFindIndex !== -1) {
         state.data[isFindIndex] = { ...action.payload };
       }
+      console.log(state.editedID,action.payload)
+      updateClient(action.payload)
       state.editedID = null;
       localforage.setItem(CLIENTS_KEY, [...state.data]);
     },

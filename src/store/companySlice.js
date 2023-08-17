@@ -12,7 +12,16 @@ const initialState = {
     companyMobile: "",
   },
 };
-
+const setCompany =async(company)=>{
+  const response = await fetch("https://invoice-data.vercel.app/addcompany",{
+    method:'POST',
+    // mode:"no-cors",
+    headers:{
+      'content-type':'application/json'
+    },
+    body: JSON.stringify({company:company})
+  })
+}
 export const companySlice = createSlice({
   name: "company",
   initialState,
@@ -31,7 +40,7 @@ export const companySlice = createSlice({
         state.data.companyName = companyName ? companyName : "";
         state.data.companyEmail = companyEmail ? companyEmail : "";
         state.data.companyMobile = companyMobile ? companyMobile : "";
-        localforage.setItem(COMPANY_KEY, action.payload);
+        setCompany(action.payload)
       } catch (e) {
         console.log(e);
       }
