@@ -28,12 +28,15 @@ const useInitApp = () => {
   const dispatch = useDispatch();
   const { setInitLoading } = useAppContext();
   const getInvoices =async()=>{
+    var d = new Date(Date.now());
+    const date= d.toLocaleDateString('en-GB');
     const response = await fetch("https://invoice-data.vercel.app/getinvoices",{
       method:'POST',
       // mode:"no-cors",
       headers:{
         'content-type':'application/json'
-      }
+      },
+      body: JSON.stringify({date:date})
     })
    
     const json = await response.json()
@@ -84,12 +87,15 @@ const useInitApp = () => {
     
   }
   const getinvoicedetail =async()=>{
+      var d = new Date(Date.now());
+  const date= d.toLocaleDateString('en-GB');
     const response = await fetch("https://invoice-data.vercel.app/getinvoicedetail",{
   method:'POST',
 
   headers:{
     'content-type':'application/json'
-  }
+  },
+  body: JSON.stringify({date:date})
 })
 const json = await response.json()
   const detail =  json.data 
