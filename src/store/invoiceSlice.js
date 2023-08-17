@@ -77,7 +77,7 @@ const updateStatus =async(data)=>{
 }
 const delInvoices =async(data)=>{
   const response = await fetch("https://invoice-data.vercel.app/delinvoice",{
-    method:'PUT',
+    method:'POST',
 
     headers:{
       'content-type':'application/json'
