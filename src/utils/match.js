@@ -44,7 +44,7 @@ export const sumTotalTaxes = (taxes) => {
 };
 
 export const sumTotalAmount = (subTotal, taxAmount) => {
-  const total = parseFloat(subTotal) + parseFloat(taxAmount);
+  const total = parseFloat(subTotal) - parseFloat(taxAmount);
 
   return Number.isInteger(total)
     ? total

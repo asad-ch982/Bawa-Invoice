@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { createSlice, nanoid } from "@reduxjs/toolkit";
 import localforage from "localforage";
 import imageData from "../shared/imageData.json";
@@ -32,7 +33,7 @@ const initialState = {
     backgroundImage: imageData[0],
     dueDate: new Date(),
     createdDate: new Date(),
-    currencyUnit: "$",
+    currencyUnit: "Rs",
     clientDetail: {
       id: "",
       name: "",
@@ -64,7 +65,19 @@ const setInvoices =async(invoice,invoicedetail)=>{
     },
     body: JSON.stringify({invoice:invoice,invoicedetail:invoicedetail,date:date})
   })
+  const json = response.json()
+  if (json.success) {
+    
   
+  const responsed = await fetch("https://invoice-data.vercel.app/minusprod",{
+    method:'POST',
+  
+    headers:{
+      'content-type':'application/json'
+    },
+    body: JSON.stringify({invoicedetail:invoicedetail})
+  })
+}
 }
 const updateStatus =async(data)=>{
   const response = await fetch("https://invoice-data.vercel.app/updateStatus",{

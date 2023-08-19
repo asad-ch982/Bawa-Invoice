@@ -68,8 +68,9 @@ function InvoiceDetailScreen(props) {
   const reactToPrintContent = useCallback(() => {
     return componentRef.current;
   }, []);
+  const [printed, setprinted] = useState(false)
   const handlePrint = useReactToPrint({
-    content: reactToPrintContent,
+    content:  reactToPrintContent,
     documentTitle: "Invoice Letter",
     onAfterPrint: useCallback(() => {
       setIsExporting(false);
@@ -193,7 +194,7 @@ function InvoiceDetailScreen(props) {
   const onDeleteProduct = useCallback((prodID) => {
     setInvoiceForm((prev) => {
       let updatedData = { ...prev };
-      const updateProducts = prev.products.filter((prod) => prod.id !== prodID);
+      const updateProducts = prev.products.filter((prod) => prod.slug !== prodID);
       const subTotalAmount = sumProductTotal(updateProducts);
       const updateTaxes = getTotalTaxesWithPercent(prev.taxes, subTotalAmount);
       updatedData.products = updateProducts;
@@ -241,7 +242,7 @@ function InvoiceDetailScreen(props) {
       let updateProducts = [...invoiceForm.products];
 
       const isFindIndex = updateProducts.findIndex(
-        (prod) => prod.id === productID
+        (prod) => prod.slug === productID
       );
 
       if (isFindIndex !== -1) {
@@ -274,7 +275,7 @@ function InvoiceDetailScreen(props) {
     (event, keyName, taxID) => {
       const value = event.target.value;
       let updateTaxes = [...invoiceForm.taxes];
-      const isFindIndex = updateTaxes.findIndex((prod) => prod.id === taxID);
+      const isFindIndex = updateTaxes.findIndex((prod) => prod.slug === taxID);
       if (isFindIndex === -1) {
         return;
       }
@@ -390,7 +391,7 @@ function InvoiceDetailScreen(props) {
       const amount = (10 / 100) * subTotalAmount;
       const percentageTax = {
         id: nanoid(),
-        title: "Tax %",
+        title: "Discount %",
         type: "percentage",
         value: 10,
         amount,
@@ -430,7 +431,7 @@ function InvoiceDetailScreen(props) {
 
   const onDeleteTax = useCallback((taxID) => {
     setInvoiceForm((prev) => {
-      const updateTaxes = prev.taxes.filter((prod) => prod.id !== taxID);
+      const updateTaxes = prev.taxes.filter((prod) => prod.slug !== taxID);
       let updatedData = { ...prev, taxes: updateTaxes };
       const subTotalAmount = sumProductTotal(prev.products);
       const totalAmount = sumTotalAmount(
@@ -456,13 +457,18 @@ function InvoiceDetailScreen(props) {
   const goInvoiceList = useCallback(() => {
     navigate("/invoices");
   }, [navigate]);
-
+const invoicenumber = ()=>{
+  const data = JSON.stringify(Date.now())
+  return data
+}
+const [invno, setInvno] = useState('')
   useEffect(() => {
+setInvno(invoicenumber())
     if (selectedProduct !== null) {
       // If Choosen Exisiting Client And This form is news
-      const { name, productID, amount } = selectedProduct;
+      const { name, productID, amount,slug } = selectedProduct;
       const newProduct = {
-        id: nanoid(),
+        slug ,
         name,
         productID,
         amount,
@@ -608,7 +614,6 @@ function InvoiceDetailScreen(props) {
       }
     }
   }, [dispatch, invoiceForm, isConfirm, navigate, params, statusData]);
-
   return (
     <div>
       <div className="p-4">
@@ -641,7 +646,7 @@ function InvoiceDetailScreen(props) {
               : "bg-white mx-4 rounded-xl mb-1"
           }
           id="InvoiceWrapper"
-          ref={componentRef}
+         
           style={isExporting ? { width: 1200 } : {}}
         >
           {/* Background Image */}
@@ -801,7 +806,7 @@ function InvoiceDetailScreen(props) {
                       autoComplete="nope"
                       placeholder="Invoice No"
                       className={defaultInputSmStyle + " text-right"}
-                      value={invoiceForm.invoiceNo}
+                      value={invoiceForm?.invoiceNo}
                       onChange={(e) => handlerInvoiceValue(e, "invoiceNo")}
                     />
                   ) : (
@@ -915,7 +920,7 @@ function InvoiceDetailScreen(props) {
 
             {invoiceForm?.products?.map((product, index) => (
               <div
-                key={`${index}_${product.id}`}
+                key={`${index}_${product.slug}`}
                 className={
                   (isExporting
                     ? "flex flex-row rounded-lg w-full px-4 py-1 items-center relative text-sm"
@@ -949,7 +954,7 @@ function InvoiceDetailScreen(props) {
                         placeholder="Product Name"
                         className={defaultInputSmStyle + " text-right"}
                         onChange={(e) =>
-                          handlerProductValue(e, "name", product.id)
+                          handlerProductValue(e, "name", product.slug)
                         }
                       />
                     ) : (
@@ -984,7 +989,7 @@ function InvoiceDetailScreen(props) {
                         type={"number"}
                         className={defaultInputSmStyle + " text-right"}
                         onChange={(e) =>
-                          handlerProductValue(e, "amount", product.id)
+                          handlerProductValue(e, "amount", product.slug)
                         }
                       />
                     ) : (
@@ -1029,7 +1034,7 @@ function InvoiceDetailScreen(props) {
                         placeholder="Quantity"
                         className={defaultInputSmStyle + " text-right"}
                         onChange={(e) =>
-                          handlerProductValue(e, "quantity", product.id)
+                          handlerProductValue(e, "quantity", product.slug)
                         }
                       />
                     ) : (
@@ -1089,7 +1094,7 @@ function InvoiceDetailScreen(props) {
                 {!isViewMode && (
                   <div
                     className="w-full sm:w-10 sm:absolute sm:right-0"
-                    onClick={() => onDeleteProduct(product.id)}
+                    onClick={() => onDeleteProduct(product.slug)}
                   >
                     <div className="w-full text-red-500 font-title h-8 sm:h-8 sm:w-8 cursor-pointer rounded-2xl bg-red-200 mr-2 flex justify-center items-center">
                       <DeleteIcon className="h-4 w-4" style={IconStyle} />
@@ -1298,15 +1303,15 @@ function InvoiceDetailScreen(props) {
                 <div className="font-title w-full sm:w-1/4 text-right sm:pr-8 flex flex-row sm:block mb-1">
                   <Button size="sm" block={1} onClick={addPercentageTax}>
                     <TaxesIcon style={IconStyle} className="h-5 w-5" />
-                    Add Taxes (%)
+                    Discount (%)
                   </Button>
                 </div>
-                <div className="font-title w-full sm:w-1/4 text-right sm:pr-8 flex flex-row sm:block mb-1">
+                {/* <div className="font-title w-full sm:w-1/4 text-right sm:pr-8 flex flex-row sm:block mb-1">
                   <Button size="sm" block={1} onClick={addEmptyTax}>
                     <DollarIcon style={IconStyle} className="w-5 h-5" />
                     Add Extra Fee
                   </Button>
-                </div>
+                </div> */}
               </div>
             )}
             {/* Add Tax Action Finished*/}
@@ -1425,6 +1430,75 @@ function InvoiceDetailScreen(props) {
           />
         </div>
       )}
+      <div className="hidden ">
+         <div ref={componentRef}   className='pt-10 md:pt-10 special' id="printThis">
+        <div className="bg-white rounded-lg shadow-lg px-6 py-8 max-w-md mx-auto mt-16">
+    <h1 className="font-bold text-2xl my-2 text-center text-black">{invoiceForm?.companyDetail?.companyName || "Company Name"}</h1>
+    <h1 className=" text my-2 text-center text-black">{invoiceForm?.companyDetail?.billingAddress || "Company Name"}</h1>
+    <h1 className=" text my-2 text-center text-black">{invoiceForm?.companyDetail?.companyMobile || "Company Name"}</h1>
+    <hr className="mb-2"/>
+    <div className="flex justify-between mb-6">
+        <h1 className="text-lg font-bold">Invoice</h1>
+        <div className="text-gray-700 w-36">
+          <div className="flex">
+            <div className="">Date:</div>
+            <DatePicker 
+                    selected={invoiceForm?.createdDate}
+                   
+                    disabled={true}
+                    className={
+                      " border-white bg-white !w-28 ml-1"
+                    }
+                  >Date </DatePicker>
+          </div>
+       
+            <div>Invoice #: {invoiceForm?.invoiceNo}</div>
+        </div>
+    </div>
+    <div className="mb-8">
+        <h2 className="text-lg font-bold mb-4">Bill To:</h2>
+        <div className="text-gray-700 mb-2">{invoiceForm?.clientDetail?.name}</div>
+        <div className="text-gray-700 mb-2">{invoiceForm?.clientDetail?.mobileNo}</div>
+        <div className="text-gray-700 mb-2">{invoiceForm?.clientDetail?.billingAddress}</div>
+        <div className="text-gray-700">{invoiceForm?.clientDetail?.email}</div>
+    </div>
+    <table className="w-full mb-8">
+        <thead>
+            <tr>
+                <th className="text-left font-bold text-gray-700">Description</th>
+                <th className="text-center font-bold text-gray-700">Qty</th>
+                <th className="text-right font-bold text-gray-700">Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+        {invoiceForm?.products?.map((product, index) => (
+         
+            <tr  key={`${index}_${product.slug}`} className="">
+                <td className="text-left text-gray-700 text-sm w-48">{product.name}</td>
+                <td className="text-center text-gray-700">{product.quantity}</td>
+                <td className="text-right text-gray-700">{product.amount} Rs</td>
+            </tr>))}
+
+        </tbody>
+        <tfoot className="">
+        {invoiceForm?.taxes?.map((tax, index) => (
+            <tr  key={`${index}_${tax.id}`} className="">
+                <td className="text-left font-bold text-gray-700">Discount</td>
+                <td className="text-center font-bold text-gray-700"></td>
+                <td className="text-right font-bold text-gray-700">{tax.amount} Rs</td>
+            </tr>))}
+            <tr className="">
+                <td className="text-left font-bold text-gray-700">Total</td>
+                <td className="text-center font-bold text-gray-700"></td>
+                <td className="text-right font-bold text-gray-700">{invoiceForm?.totalAmount} Rs</td>
+            </tr>
+        </tfoot>
+    </table>
+    <div className="text-gray-700 mb-2">NO CHANGES NO RETURNS!</div>
+    <div className="text-gray-700">Thank you for purchasing</div>
+</div>
+    </div>
+    </div>
     </div>
   );
 }

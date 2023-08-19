@@ -166,5 +166,8 @@ br {
 }
 
 @page {
-  size: landscape;
+
 }
+@media print {
+         display:block
+      }

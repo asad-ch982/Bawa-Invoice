@@ -107,6 +107,7 @@ const json = await response.json()
     try {
       const invoices = await getInvoices()
       const products = await getProducts()
+      console.log(products)
       const companyData = await getcompany()
       const clients = await getclients()
       const invoiceDetailList= await getinvoicedetail()

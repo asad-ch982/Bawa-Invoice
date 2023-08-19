@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { createSlice } from "@reduxjs/toolkit";
 import localforage from "localforage";
 import { nanoid } from "nanoid";
