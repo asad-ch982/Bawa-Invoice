@@ -57,7 +57,7 @@ const initialState = {
 const setInvoices =async(invoice,invoicedetail)=>{
   var d = new Date(Date.now());
   const date= d.toLocaleDateString('en-GB');
-  const response = await fetch("https://invoice-data.vercel.app/invoice",{
+  const response = await fetch("http://localhost:5000/invoice",{
     method:'POST',
   
     headers:{
@@ -67,9 +67,12 @@ const setInvoices =async(invoice,invoicedetail)=>{
   })
   const json = response.json()
   if (json.success) {
+    minus(invoicedetail)
+  }
+}
     
-  
-  const responsed = await fetch("https://invoice-data.vercel.app/minusprod",{
+const minus =async(invoicedetail)=>{
+  const responsed = await fetch("http://localhost:5000/minusprod",{
     method:'POST',
   
     headers:{
@@ -78,9 +81,9 @@ const setInvoices =async(invoice,invoicedetail)=>{
     body: JSON.stringify({invoicedetail:invoicedetail})
   })
 }
-}
+
 const updateStatus =async(data)=>{
-  const response = await fetch("https://invoice-data.vercel.app/updateStatus",{
+  const response = await fetch("http://localhost:5000/updateStatus",{
     method:'POST',
   
     headers:{
@@ -91,7 +94,7 @@ const updateStatus =async(data)=>{
   
 }
 const delInvoices =async(data)=>{
-  const response = await fetch("https://invoice-data.vercel.app/delinvoice",{
+  const response = await fetch("http://localhost:5000/delinvoice",{
     method:'POST',
 
     headers:{
@@ -102,7 +105,7 @@ const delInvoices =async(data)=>{
   const json = await response.json()
 }
 // const InvoicesDetail =async(data)=>{
-//   const response = await fetch("https://invoice-data.vercel.app/invoicedetail",{
+//   const response = await fetch("http://localhost:5000/invoicedetail",{
 //     method:'POST',
 
 //     headers:{
