@@ -122,7 +122,6 @@ export const productSlice = createSlice({
       const isFindIndex = state.data.findIndex(
         (product) => product.slug === state.editedID
       );
-      console.log(state.editedID,action.payload)
       updateProducts(action.payload)
       if (isFindIndex !== -1) {
         state.data[isFindIndex] = { ...action.payload };

@@ -1,16 +1,23 @@
-import React, { useCallback } from "react";
+import React, { useCallback ,useState,useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import PageTitle from "../components/Common/PageTitle";
 import DashboardWidgets from "../components/Dashboard/DashboardWidgets";
 import InvoiceIcon from "../components/Icons/InvoiceIcon";
 import Button from "../components/Button/Button";
 import QuickEditCompany from "../components/Dashboard/QuickEditCompany";
-import QuickAddClient from "../components/Dashboard/QuickAddClient";
 import ClientTable from "../components/Clients/ClientTable";
 import InvoiceTable from "../components/Invoice/InvoiceTable";
+import CustomInvoice from "../components/CustomInvoice/CustomInvoice";
 
 function DashboardScreen() {
   const navigate = useNavigate();
+  const [seed, setSeed] = useState(1)
+const reset =()=>{
+  setSeed(Math.random())
+}
+// useEffect(() => {
+//   reset()
+// }, [])
 
   const goToNewInvoice = useCallback(() => {
     navigate("/invoices/new");
@@ -25,7 +32,7 @@ function DashboardScreen() {
         <div className="w-full lg:w-4/6 pl-4 pr-4 sm:pl-4 sm:pr-0 mb-4 sm:mb-1">
           <DashboardWidgets />
           <div className="mt-1">
-            <InvoiceTable />
+            <InvoiceTable key={seed} />
           </div>
           <div className="mt-4">
             <ClientTable />
@@ -41,7 +48,7 @@ function DashboardScreen() {
 
           <QuickEditCompany isShowDetail={false} />
           <div className="mt-4">
-            <QuickAddClient />
+        <CustomInvoice reset={reset}/>
           </div>
         </div>
       </div>

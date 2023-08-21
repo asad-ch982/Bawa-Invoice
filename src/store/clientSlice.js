@@ -97,7 +97,6 @@ export const clientsSlice = createSlice({
       const newDatas = state.data.filter(
         (client) => client.id !== state.deletedID
       );
-      console.log(state.deletedID)
       delClient(state.deletedID)
       state.data = newDatas;
       state.deletedID = null;
@@ -110,7 +109,6 @@ export const clientsSlice = createSlice({
       if (isFindIndex !== -1) {
         state.data[isFindIndex] = { ...action.payload };
       }
-      console.log(state.editedID,action.payload)
       updateClient(action.payload)
       state.editedID = null;
       localforage.setItem(CLIENTS_KEY, [...state.data]);

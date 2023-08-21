@@ -120,12 +120,11 @@ export const invoiceSlice = createSlice({
   initialState,
   reducers: {
     setAllInvoice: (state, action) => {
-      state.data = [...action.payload];
+      state.data = action.payload;
     },
 
     setAllInvoiceDetailList: (state, action) => {
       state.detailList = action.payload;
-      console.log(state.detailList)
     },
 
     setNewInvoices: (state, action) => {
@@ -162,7 +161,6 @@ export const invoiceSlice = createSlice({
 
       const newDetailList = [...state.detailList, { ...payload, id }];
       state.detailList = newDetailList;
-      console.log(newDetailList)
       localforage.setItem(INVOICE_DETAILS, newDetailList);
     },
 
@@ -239,7 +237,6 @@ export const invoiceSlice = createSlice({
         createdDate,
         clientDetail,
       } = action.payload;
-console.log(action.payload)
 updateStatus(action.payload)
       // const findIndexOfList = state.data.findIndex(
       //   (product) => product.id === id

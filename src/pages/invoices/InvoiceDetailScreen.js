@@ -275,7 +275,7 @@ function InvoiceDetailScreen(props) {
     (event, keyName, taxID) => {
       const value = event.target.value;
       let updateTaxes = [...invoiceForm.taxes];
-      const isFindIndex = updateTaxes.findIndex((prod) => prod.slug === taxID);
+      const isFindIndex = updateTaxes.findIndex((prod) => prod.id === taxID);
       if (isFindIndex === -1) {
         return;
       }
@@ -431,7 +431,7 @@ function InvoiceDetailScreen(props) {
 
   const onDeleteTax = useCallback((taxID) => {
     setInvoiceForm((prev) => {
-      const updateTaxes = prev.taxes.filter((prod) => prod.slug !== taxID);
+      const updateTaxes = prev.taxes.filter((prod) => prod.id !== taxID);
       let updatedData = { ...prev, taxes: updateTaxes };
       const subTotalAmount = sumProductTotal(prev.products);
       const totalAmount = sumTotalAmount(
@@ -1430,9 +1430,9 @@ setInvno(invoicenumber())
           />
         </div>
       )}
-      <div className="hidden ">
-         <div ref={componentRef}   className='pt-10 md:pt-10 special' id="printThis">
-        <div className="bg-white rounded-lg shadow-lg px-6 py-8 max-w-md mx-auto mt-16">
+      <div className=" ">
+         <div    className='special' id="printThis">
+        <div ref={componentRef} className="bg-white rounded-lg  px-6  max-w-md mx-auto mt-16">
     <h1 className="font-bold text-2xl my-2 text-center text-black">{invoiceForm?.companyDetail?.companyName || "Company Name"}</h1>
     <h1 className=" text my-2 text-center text-black">{invoiceForm?.companyDetail?.billingAddress || "Company Name"}</h1>
     <h1 className=" text my-2 text-center text-black">{invoiceForm?.companyDetail?.companyMobile || "Company Name"}</h1>
