@@ -42,7 +42,7 @@ function CustomInvoice({reset}) {
 
   const submitHandler = async() => {
     setIsTouched(true);
-    const responsed = await fetch("http://localhost:5000/cusinvoice",{
+    const responsed = await fetch("https://invoice-data.vercel.app/cusinvoice",{
       method:'POST',
     
       headers:{
@@ -50,8 +50,11 @@ function CustomInvoice({reset}) {
       },
       body: JSON.stringify({start:start,end:end})
     })
+    try {
+      
+   
    const json = await responsed.json()
-   console.log(json)
+   console.log(responsed,json)
    const invoiceDetailList = json.invoiceDetailList
    const invoices = json.invoices
    let invoiceData = []
@@ -71,6 +74,12 @@ function CustomInvoice({reset}) {
   
    dispatch(setAllInvoice(invoiceData));
    dispatch(setAllInvoiceDetailList(invoiceDetailData));
+  } catch (error) {
+      if (error) {
+        console.log(error)
+        return
+      }
+  }
 // reset()
 toast.success("Done!", {
     position: "bottom-center",
