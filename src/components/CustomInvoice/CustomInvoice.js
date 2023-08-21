@@ -57,23 +57,23 @@ function CustomInvoice({reset}) {
    console.log(responsed,json)
    const invoiceDetailList = json.invoiceDetailList
    const invoices = json.invoices
-   let invoiceData = []
-   let invoiceDetailData = []
+//    let invoiceData = []
+//    let invoiceDetailData = []
  
-    for (const key in invoiceDetailList) {
-      if (invoiceDetailList.hasOwnProperty(key) && invoiceDetailList[key].data) {
-        invoiceDetailData.push(invoiceDetailList[key].data); 
-      } 
-  }
-  for (const key in invoices) {
-    if (invoices.hasOwnProperty(key) && invoices[key].data) {
-        invoiceData.push(...invoices[key].data); 
-    } 
-}
+//     for (const key in invoiceDetailList) {
+//       if (invoiceDetailList.hasOwnProperty(key) && invoiceDetailList[key].data) {
+//         invoiceDetailData.push(invoiceDetailList[key].data); 
+//       } 
+//   }
+//   for (const key in invoices) {
+//     if (invoices.hasOwnProperty(key) && invoices[key].data) {
+//         invoiceData.push(...invoices[key].data); 
+//     } 
+// }
   
   
-   dispatch(setAllInvoice(invoiceData));
-   dispatch(setAllInvoiceDetailList(invoiceDetailData));
+   dispatch(setAllInvoice(invoices));
+   dispatch(setAllInvoiceDetailList(invoiceDetailList));
   } catch (error) {
       if (error) {
         console.log(error)
