@@ -42,7 +42,7 @@ function CustomInvoice({reset}) {
 
   const submitHandler = async() => {
     setIsTouched(true);
-    const responsed = await fetch("https://invoice-data.vercel.app/cusinvoice",{
+    const responsed = await fetch("http://localhost:5000/cusinvoice",{
       method:'POST',
     
       headers:{
@@ -51,6 +51,7 @@ function CustomInvoice({reset}) {
       body: JSON.stringify({start:start,end:end})
     })
    const json = await responsed.json()
+   console.log(json)
    const invoiceDetailList = json.invoiceDetailList
    const invoices = json.invoices
    let invoiceData = []
