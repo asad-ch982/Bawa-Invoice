@@ -42,7 +42,7 @@ function CustomInvoice({reset}) {
 
   const submitHandler = async() => {
     setIsTouched(true);
-    const responsed = await fetch("https://invoice-data.vercel.app/cusinvoice",{
+    const response = await fetch("https://invoice-data.vercel.app/cusinvoice",{
       method:'POST',
     
       headers:{
@@ -52,28 +52,34 @@ function CustomInvoice({reset}) {
     })
     try {
       
+
+      const text = await response.text();
+        const lines = text.split('\n');
+        const newData = lines
+          .filter((line) => line.trim() !== '') // Filter out empty lines
+          .map((line) => JSON.parse(line));
+      
+     
    
-   const json = await responsed.json()
-   console.log(responsed,json)
-   const invoiceDetailList = json.invoiceDetailList
-   const invoices = json.invoices
-//    let invoiceData = []
-//    let invoiceDetailData = []
  
-//     for (const key in invoiceDetailList) {
-//       if (invoiceDetailList.hasOwnProperty(key) && invoiceDetailList[key].data) {
-//         invoiceDetailData.push(invoiceDetailList[key].data); 
-//       } 
-//   }
-//   for (const key in invoices) {
-//     if (invoices.hasOwnProperty(key) && invoices[key].data) {
-//         invoiceData.push(...invoices[key].data); 
-//     } 
-// }
+   const invoiceDetailList = newData[1]
+   const invoices = newData[0]
+   let invoiceData = []
+   let invoiceDetailData = []
+    for (const key in invoiceDetailList) {
+      if (invoiceDetailList.hasOwnProperty(key) && invoiceDetailList[key].data) {
+        invoiceDetailData.push(invoiceDetailList[key].data); 
+      } 
+  }
+  for (const key in invoices) {
+    if (invoices.hasOwnProperty(key) && invoices[key].data) {
+        invoiceData.push(...invoices[key].data); 
+    } 
+}
   
   
-   dispatch(setAllInvoice(invoices));
-   dispatch(setAllInvoiceDetailList(invoiceDetailList));
+   dispatch(setAllInvoice(invoiceData));
+   dispatch(setAllInvoiceDetailList(invoiceDetailData));
   } catch (error) {
       if (error) {
         console.log(error)
