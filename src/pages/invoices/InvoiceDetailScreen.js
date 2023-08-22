@@ -506,8 +506,8 @@ setInvno(invoicenumber())
           createdDate: new Date(),
         });
 
-        dispatch(setDefaultBackground(invoiceNewForm.backgroundImage));
-        dispatch(setDefaultColor(invoiceNewForm.color));
+        dispatch(setDefaultBackground(currentBg));
+        dispatch(setDefaultColor(currentColor));
       } else if (params.id !== "new" && invoiceForm === null) {
         // Else Exisiting Invoice,
         // We'll Set Company Data
@@ -525,13 +525,13 @@ setInvno(invoicenumber())
         } else {
           setInvoiceForm({
             ...getInvoiceDetail,
-            companyDetail: { ...getInvoiceDetail.companyDetail },
+            companyDetail: { ...company },
             dueDate: new Date(getInvoiceDetail.dueDate),
             createdDate: new Date(getInvoiceDetail.createdDate),
           });
 
-          dispatch(setDefaultBackground(getInvoiceDetail.backgroundImage));
-          dispatch(setDefaultColor(getInvoiceDetail.color));
+          dispatch(setDefaultBackground(currentBg));
+          dispatch(setDefaultColor(currentColor));
           setIsViewMode(true);
         }
       }

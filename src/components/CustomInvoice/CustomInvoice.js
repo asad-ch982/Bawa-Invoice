@@ -37,11 +37,65 @@ function CustomInvoice({reset}) {
  
 
 
-
+  const fetchDetailData =async(invoiceDetailList)=>{
+    setIsTouched(true);
+    let invoiceDetailData = []
+    for (const key in invoiceDetailList) {
+      if (invoiceDetailList.hasOwnProperty(key) && invoiceDetailList[key].id) {
+        invoiceDetailData.push({id:invoiceDetailList[key].id}); 
+      } 
+  }
+    const response = await fetch("https://invoice-data.vercel.app/cusinvoicedata",{
+      method:'POST',
+    
+      headers:{
+        'content-type':'application/json'
+      },
+      body: JSON.stringify({start:start,end:end,data:invoiceDetailData})
+    })
+    try {
+      
+  
+      const text = await response.text();
+        const lines = text.split('\n');
+        const newData = lines
+          .filter((line) => line.trim() !== '') // Filter out empty lines
+          .map((line) => JSON.parse(line));
+      
+     
+   
+  
+   const invoiceDetailList = newData[0]
+  //  const invoices = newData[0]
+  //    let invoiceData = []
+  //    let invoiceDetailData = []
+  //     for (const key in invoiceDetailList) {
+  //       if (invoiceDetailList.hasOwnProperty(key) && invoiceDetailList[key].data) {
+  //         invoiceDetailData.push(invoiceDetailList[key].data); 
+  //       } 
+  //   }
+  //   for (const key in invoices) {
+  //     if (invoices.hasOwnProperty(key) && invoices[key].data) {
+  //         invoiceData.push(...invoices[key].data); 
+  //     } 
+  // }
+  
+  
+  //  dispatch(setAllInvoice(invoices));
+   dispatch(setAllInvoiceDetailList(invoiceDetailList));
+  } catch (error) {
+      if (error) {
+        console.log(error)
+        return
+      }
+  }
+  }
 
 
   const submitHandler = async() => {
+
     setIsTouched(true);
+  
     const response = await fetch("https://invoice-data.vercel.app/cusinvoice",{
       method:'POST',
     
@@ -52,7 +106,7 @@ function CustomInvoice({reset}) {
     })
     try {
       
-
+     
       const text = await response.text();
         const lines = text.split('\n');
         const newData = lines
@@ -62,24 +116,26 @@ function CustomInvoice({reset}) {
      
    
  
-   const invoiceDetailList = newData[1]
+  //  const invoiceDetailList = newData[1]
    const invoices = newData[0]
-   let invoiceData = []
-   let invoiceDetailData = []
-    for (const key in invoiceDetailList) {
-      if (invoiceDetailList.hasOwnProperty(key) && invoiceDetailList[key].data) {
-        invoiceDetailData.push(invoiceDetailList[key].data); 
-      } 
-  }
-  for (const key in invoices) {
-    if (invoices.hasOwnProperty(key) && invoices[key].data) {
-        invoiceData.push(...invoices[key].data); 
-    } 
-}
+   fetchDetailData(invoices);
+   console.log(invoices)
+//    let invoiceData = []
+//    let invoiceDetailData = []
+//     for (const key in invoiceDetailList) {
+//       if (invoiceDetailList.hasOwnProperty(key) && invoiceDetailList[key].data) {
+//         invoiceDetailData.push(invoiceDetailList[key].data); 
+//       } 
+//   }
+//   for (const key in invoices) {
+//     if (invoices.hasOwnProperty(key) && invoices[key].data) {
+//         invoiceData.push(...invoices[key].data); 
+//     } 
+// }
   
   
-   dispatch(setAllInvoice(invoiceData));
-   dispatch(setAllInvoiceDetailList(invoiceDetailData));
+   dispatch(setAllInvoice(invoices));
+  //  dispatch(setAllInvoiceDetailList(invoiceDetailList));
   } catch (error) {
       if (error) {
         console.log(error)
