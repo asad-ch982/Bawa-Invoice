@@ -1,16 +1,7 @@
 import localforage from "localforage";
 import { useCallback } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch ,useSelector} from "react-redux";
 import {
-  CLIENTS_KEY,
-  CLIENT_FORM_KEY,
-  COMPANY_KEY,
-  PRODUCTS_KEY,
-  PRODUCT_FORM_KEY,
-  // APP_CONTEXT,
-  INVOICE_DETAILS,
-  INVOICES_KEY,
-  INVOICE_FORM_KEY,
   DEFAULT_INVOICE_COLOR,
   DEFAULT_INVOICE_BG,
 } from "../constants/localKeys";
@@ -22,12 +13,15 @@ import {
   setAllInvoiceDetailList,
   updateNewInvoiceForm,
 } from "../store/invoiceSlice";
+import {getAuthNo} from "../store/authSlice"
 import { setAllProducts, updateNewProductForm } from "../store/productSlice";
 
 const useInitApp = () => {
   const dispatch = useDispatch();
   const { setInitLoading } = useAppContext();
+  const authentication = useSelector(getAuthNo);
   const getInvoices =async()=>{
+    const token = JSON.parse(localStorage.getItem("Token"))
     var d = new Date(Date.now());
     const date= d.toLocaleDateString('en-GB');
     const response = await fetch("https://invoice-data.vercel.app/getinvoices",{
@@ -36,7 +30,7 @@ const useInitApp = () => {
       headers:{
         'content-type':'application/json'
       },
-      body: JSON.stringify({date:date})
+      body: JSON.stringify({date:date,authno:authentication.authNo,token:token})
     })
    
     const json = await response.json()
@@ -45,12 +39,14 @@ const useInitApp = () => {
     
   }
   const getProducts =async()=>{
+    const token = JSON.parse(localStorage.getItem("Token"))
     const response = await fetch("https://invoice-data.vercel.app/getprod",{
       method:'POST',
       // mode:"no-cors",
       headers:{
         'content-type':'application/json'
-      }
+      },
+      body: JSON.stringify({authno:authentication.authNo,token:token})
     })
     const json = await response.json()
     const data = json
@@ -59,12 +55,14 @@ const useInitApp = () => {
     
   }
   const getcompany =async()=>{
+    const token = JSON.parse(localStorage.getItem("Token"))
     const response = await fetch("https://invoice-data.vercel.app/getcompany",{
       method:'POST',
       // mode:"no-cors",
       headers:{
         'content-type':'application/json'
-      }
+      },
+      body: JSON.stringify({authno:authentication.authNo,token:token})
     })
     const json = await response.json()
     const data = json.company
@@ -73,12 +71,14 @@ const useInitApp = () => {
     
   }
   const getclients =async()=>{
+    const token = JSON.parse(localStorage.getItem("Token"))
     const response = await fetch("https://invoice-data.vercel.app/getclients",{
       method:'POST',
       // mode:"no-cors",
       headers:{
         'content-type':'application/json'
-      }
+      },
+      body: JSON.stringify({authno:authentication.authNo,token:token})
     })
     const json = await response.json()
     const data = json.clients
@@ -87,6 +87,7 @@ const useInitApp = () => {
     
   }
   const getinvoicedetail =async()=>{
+    const token = JSON.parse(localStorage.getItem("Token"))
       var d = new Date(Date.now());
   const date= d.toLocaleDateString('en-GB');
     const response = await fetch("https://invoice-data.vercel.app/getinvoicedetail",{
@@ -95,7 +96,7 @@ const useInitApp = () => {
   headers:{
     'content-type':'application/json'
   },
-  body: JSON.stringify({date:date})
+  body: JSON.stringify({date:date,authno:authentication.authNo,token:token})
 })
 const json = await response.json()
   const detail =  json.data 

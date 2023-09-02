@@ -198,6 +198,7 @@ function ClientTable({ showAdvanceSearch = false }) {
         <div>
           {currentItems &&
             currentItems.map((client) => (
+              
               <div className={defaultTdWrapperStyle} key={client.id}>
                 <div className={defaultTdStyle}>
                   <div className={defaultTdContentTitleStyle}>Name</div>

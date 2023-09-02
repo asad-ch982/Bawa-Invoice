@@ -26,32 +26,35 @@ const initialState = {
   deletedID: null,
 };
 const setProducts =async(data)=>{
+  const token = JSON.parse(localStorage.getItem("Token"))
   const response = await fetch("https://invoice-data.vercel.app/addprod",{
     method:'POST',
     headers:{
       'content-type':'application/json'
     },
-    body: JSON.stringify({data:data})
+    body: JSON.stringify({data:data,token:token})
   })
   const json = await response.json()
 }
 const delProducts =async(data)=>{
+  const token = JSON.parse(localStorage.getItem("Token"))
   const response = await fetch("https://invoice-data.vercel.app/delprod",{
     method:'POST',
     headers:{
       'content-type':'application/json'
     },
-    body: JSON.stringify({slug:data})
+    body: JSON.stringify({slug:data,token:token})
   })
   const json = await response.json()
 }
 const updateProducts =async(prod)=>{
+  const token = JSON.parse(localStorage.getItem("Token"))
   const response = await fetch("https://invoice-data.vercel.app/updateprod",{
     method:'POST',
     headers:{
       'content-type':'application/json'
     },
-    body: JSON.stringify({prod:prod})
+    body: JSON.stringify({prod:prod,token:token})
   })
   const json = await response.json()
 }
@@ -63,8 +66,18 @@ export const productSlice = createSlice({
       const newDatas = [...state.data, action.payload];
       state.data = newDatas;
       localforage.setItem(PRODUCTS_KEY, newDatas);
-      setProducts(action.payload)
+      const {slug,productID,name,amount,availableQty,image}=action.payload
+     
+      const data = {
+        slug,
+        productID,
+        name,
+        amount,
+        availableQty,
+        image:image || ""
 
+      }
+ setProducts(data)
       const reNewForm = {
         slug: nanoid(),
         productID: "",

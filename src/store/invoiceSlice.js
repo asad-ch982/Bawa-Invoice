@@ -54,7 +54,9 @@ const initialState = {
     taxes: [],
   },
 };
+
 const setInvoices =async(invoice,invoicedetail)=>{
+  const token = JSON.parse(localStorage.getItem("Token"))
   var d = new Date(Date.now());
   const date= d.toLocaleDateString('en-GB');
   const response = await fetch("https://invoice-data.vercel.app/invoice",{
@@ -63,7 +65,7 @@ const setInvoices =async(invoice,invoicedetail)=>{
     headers:{
       'content-type':'application/json'
     },
-    body: JSON.stringify({invoice:invoice,invoicedetail:invoicedetail,date:date})
+    body: JSON.stringify({invoice:invoice,invoicedetail:invoicedetail,date:date,token})
   })
   const json = response.json()
   if (json.success) {
@@ -72,35 +74,39 @@ const setInvoices =async(invoice,invoicedetail)=>{
 }
     
 const minus =async(invoicedetail)=>{
+  const token = JSON.parse(localStorage.getItem("Token"))
   const responsed = await fetch("https://invoice-data.vercel.app/minusprod",{
     method:'POST',
   
     headers:{
       'content-type':'application/json'
     },
-    body: JSON.stringify({invoicedetail:invoicedetail})
+    body: JSON.stringify({invoicedetail:invoicedetail,token:token})
   })
 }
 
 const updateStatus =async(data)=>{
+  const token = JSON.parse(localStorage.getItem("Token"))
   const response = await fetch("https://invoice-data.vercel.app/updateStatus",{
     method:'POST',
   
     headers:{
       'content-type':'application/json'
     },
-    body: JSON.stringify({data:data})
+    body: JSON.stringify({data:data,token:token})
   })
   
 }
+
 const delInvoices =async(data)=>{
+  const token = JSON.parse(localStorage.getItem("Token"))
   const response = await fetch("https://invoice-data.vercel.app/delinvoice",{
     method:'POST',
 
     headers:{
       'content-type':'application/json'
     },
-    body: JSON.stringify({id:data})
+    body: JSON.stringify({id:data,token:token})
   })
   const json = await response.json()
 }
@@ -115,19 +121,23 @@ const delInvoices =async(data)=>{
 //   })
 //   const json = await response.json()
 // }
+
 export const invoiceSlice = createSlice({
+  
   name: "invoices",
   initialState,
   reducers: {
     setAllInvoice: (state, action) => {
       state.data = action.payload;
+      
     },
 
     setAllInvoiceDetailList: (state, action) => {
-      state.detailList = action.payload;
+      state.detailList = [...action.payload];
     },
 
     setNewInvoices: (state, action) => {
+   
       const { payload } = action;
 
       const id = nanoid();
@@ -174,6 +184,10 @@ export const invoiceSlice = createSlice({
       const newBackground = action.payload;
       state.defaultBgImage = newBackground;
       localforage.setItem(DEFAULT_INVOICE_BG, newBackground);
+    },
+    addNewDetailData: (state, action) => {
+      const newDetailList = [...state.detailList, { ...action.payload }];
+      state.detailList = newDetailList;
     },
 
     setDeleteId: (state, action) => {
@@ -298,6 +312,7 @@ export const {
   updateNewInvoiceForm,
   updateNewInvoiceFormField,
   updateExisitingInvoiceForm,
+  addNewDetailData
 } = invoiceSlice.actions;
 
 export const getAllInvoiceSelector = (state) => state.invoices.data;

@@ -20,33 +20,36 @@ const initialState = {
   deletedID: null,
 };
 const setClients =async(client)=>{
+  const token = JSON.parse(localStorage.getItem("Token"))
   const response = await fetch("https://invoice-data.vercel.app/addclient",{
     method:'POST',
     // mode:"no-cors",
     headers:{
       'content-type':'application/json'
     },
-    body: JSON.stringify({client:client})
+    body: JSON.stringify({client:client,token:token})
   })
 }
 const delClient =async(client)=>{
+  const token = JSON.parse(localStorage.getItem("Token"))
   const response = await fetch("https://invoice-data.vercel.app/delclient",{
     method:'POST',
     // mode:"no-cors",
     headers:{
       'content-type':'application/json'
     },
-    body: JSON.stringify({id:client})
+    body: JSON.stringify({id:client,token:token})
   })
 }
 const updateClient =async(client)=>{
+  const token = JSON.parse(localStorage.getItem("Token"))
   const response = await fetch("https://invoice-data.vercel.app/updateclient",{
     method:'POST',
     // mode:"no-cors",
     headers:{
       'content-type':'application/json'
     },
-    body: JSON.stringify({client:client})
+    body: JSON.stringify({client:client,token:token})
   })
 }
 export const clientsSlice = createSlice({

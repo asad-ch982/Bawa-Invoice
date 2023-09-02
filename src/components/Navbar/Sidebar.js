@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useCallback, useMemo } from "react";
 import { motion } from "framer-motion";
 import { NavLink, useLocation } from "react-router-dom";
@@ -53,8 +54,10 @@ function Sidebar() {
       toggleNavbar();
     }
   }, [showNavbar, toggleNavbar]);
-
-  const aboutRoute = useMemo(() => pathname === "/about", [pathname]);
+const clicked = ()=>{
+  localStorage.removeItem("Token")
+  window.location.reload();
+}
 
   return (
     <>
@@ -106,15 +109,17 @@ function Sidebar() {
         )}
         <ul className="mt-4">
           {NAV_DATA.map(({ title, link, Icon }) => (
-            <li key={title} className="mb-2">
+            <li  key={title} className="mb-2">
               <NavLink
                 to={link}
                 className={" rounded-md side-link"}
+               
                 onClick={onClickNavbar}
               >
                 {({ isActive }) => (
                   <motion.span
                     key={`${title}_nav_item`}
+                   
                     className={
                       isActive
                         ? navItemDefaultClasses + " primary-self-text "
@@ -172,9 +177,9 @@ function Sidebar() {
 
         {/* <hr /> */}
 
-        {/* <div className="mt-4">
+        <div className="mt-4">
           <motion.a
-            href={"#!"}
+            onClick={clicked}
             className="block px-4 py-2 rounded-md flex"
             initial={{
               color: "#EC7474",
@@ -183,6 +188,7 @@ function Sidebar() {
             whileHover={{
               translateX: 6,
               color: "#777",
+              cursor:"pointer",
               backgroundColor: "#dfdfdf",
               transition: {
                 backgroundColor: {
@@ -194,9 +200,9 @@ function Sidebar() {
             whileTap={{ scale: 0.9 }}
           >
             <DeleteIcon className="h-6 w-6 mr-4" />
-            Clear Data
+            Logout
           </motion.a>
-        </div> */}
+        </div>
       </nav>
     </>
   );

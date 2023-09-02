@@ -13,13 +13,14 @@ const initialState = {
   },
 };
 const setCompany =async(company)=>{
+  const token = JSON.parse(localStorage.getItem("Token"))
   const response = await fetch("https://invoice-data.vercel.app/addcompany",{
     method:'POST',
     // mode:"no-cors",
     headers:{
       'content-type':'application/json'
     },
-    body: JSON.stringify({company:company})
+    body: JSON.stringify({company:company,token:token})
   })
 }
 export const companySlice = createSlice({

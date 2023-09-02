@@ -10,7 +10,12 @@ import {
   defaultSearchStyle,
 } from "../../constants/defaultStyles";
 import ReactPaginate from "react-paginate";
-import { getAllInvoiceSelector, setDeleteId } from "../../store/invoiceSlice";
+import {
+  getAllInvoiceSelector,
+  getAllInvoiceDetailSelector,
+  setDeleteId,
+  addNewDetailData,
+} from "../../store/invoiceSlice";
 import { useNavigate } from "react-router-dom";
 import NumberFormat from "react-number-format";
 import InvoiceIcon from "../Icons/InvoiceIcon";
@@ -25,9 +30,10 @@ const emptySearchForm = {
 };
 
 function InvoiceTable({ showAdvanceSearch = false }) {
-  const { initLoading } = useAppContext();
+  const { initLoading,setEscapeOverflow } = useAppContext();
   const dispatch = useDispatch();
   const allInvoices = useSelector(getAllInvoiceSelector);
+  const allInvoiceDetails = useSelector(getAllInvoiceDetailSelector);
   const navigate = useNavigate();
 
   const [searchForm, setSearchForm] = useState(emptySearchForm);
@@ -64,9 +70,32 @@ function InvoiceTable({ showAdvanceSearch = false }) {
     },
     [dispatch]
   );
+  const addDetail = async (id) => {
+    const token = JSON.parse(localStorage.getItem("Token"))
+    const getInvoiceDetail = allInvoiceDetails.find((inv) => inv.id === id);
+    if (getInvoiceDetail) {
+      return;
+    } else if (!getInvoiceDetail) {
+     
+      setEscapeOverflow(true)
+      const response = await fetch("https://invoice-data.vercel.app/getcusinvoicedata", {
+        method: "POST",
 
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({ id: id ,token:token}),
+      });
+      const json = await response.json();
+      const data = json.data.data;
+      console.log(data);
+      dispatch(addNewDetailData(data));
+      setEscapeOverflow(false)
+    }
+  };
   const handleEdit = useCallback(
     (item) => {
+      // addDetail(item.id)
       navigate("/invoices/" + item.id);
     },
     [navigate]
@@ -218,7 +247,7 @@ function InvoiceTable({ showAdvanceSearch = false }) {
                   <div className={defaultTdContent}>
                     <Menu
                       menuButton={
-                        <MenuButton>
+                        <MenuButton onClick={() => addDetail(invoice.id)}>
                           <div className="bg-gray-50 px-2 rounded-xl">
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -245,6 +274,9 @@ function InvoiceTable({ showAdvanceSearch = false }) {
                       <MenuItem onClick={() => handleDelete(invoice)}>
                         Delete
                       </MenuItem>
+                      {/* <MenuItem onClick={() => addDetail(invoice.id)}>
+                        Load
+                      </MenuItem> */}
                     </Menu>
                   </div>
                 </div>

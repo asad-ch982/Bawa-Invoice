@@ -93,6 +93,7 @@ function CustomInvoice({reset}) {
 
 
   const submitHandler = async() => {
+    const token = JSON.parse(localStorage.getItem("Token"))
 
     setIsTouched(true);
   
@@ -102,7 +103,7 @@ function CustomInvoice({reset}) {
       headers:{
         'content-type':'application/json'
       },
-      body: JSON.stringify({start:start,end:end})
+      body: JSON.stringify({start:start,end:end,token:token})
     })
     try {
       
@@ -118,7 +119,7 @@ function CustomInvoice({reset}) {
  
   //  const invoiceDetailList = newData[1]
    const invoices = newData[0]
-   fetchDetailData(invoices);
+  //  fetchDetailData(invoices);
    console.log(invoices)
 //    let invoiceData = []
 //    let invoiceDetailData = []
