@@ -1449,55 +1449,55 @@ setInvno(invoicenumber())
                    
                     disabled={true}
                     className={
-                      " border-white  font-bold bg-white !w-28 ml-1"
+                      " border-white text-black  font-bold bg-white !w-28 ml-1"
                     }
                   >Date </DatePicker>
           </div>
        
-            <div className=" font-bold">Invoice #: {invoiceForm?.invoiceNo}</div>
+            <div className=" font-bold text-md text-black">Invoice #: {invoiceForm?.invoiceNo}</div>
         </div>
     </div>
     <div className="mb-8">
         <h2 className="text-lg font-bold mb-4">Bill To:</h2>
-        <div className="text-gray-700 font-bold mb-2">{invoiceForm?.clientDetail?.name}</div>
-        <div className="text-gray-700 font-bold mb-2">{invoiceForm?.clientDetail?.mobileNo}</div>
-        <div className="text-gray-700 font-bold mb-2">{invoiceForm?.clientDetail?.billingAddress}</div>
-        <div className="text-gray-700 font-bold">{invoiceForm?.clientDetail?.email}</div>
+        <div className="text-black text-md font-bold mb-2">{invoiceForm?.clientDetail?.name}</div>
+        <div className="text-black text-md font-bold mb-2">{invoiceForm?.clientDetail?.mobileNo}</div>
+        <div className="text-black text-md font-bold mb-2">{invoiceForm?.clientDetail?.billingAddress}</div>
+        <div className="text-black text-md font-bold">{invoiceForm?.clientDetail?.email}</div>
     </div>
     <table className="w-full mb-8">
         <thead>
             <tr>
-                <th className="text-left font-bold text-gray-700">Description</th>
-                <th className="text-center font-bold text-gray-700">Qty</th>
-                <th className="text-right font-bold text-gray-700">Amount</th>
+                <th className="text-left font-bold text-black">Description</th>
+                <th className="text-center font-bold text-black">Qty</th>
+                <th className="text-right font-bold text-black">Amount</th>
             </tr>
         </thead>
         <tbody>
         {invoiceForm?.products?.map((product, index) => (
          
             <tr  key={`${index}_${product.slug}`} className="">
-                <td className="text-left  font-bold text-gray-700 text-sm w-48">{product.name}</td>
-                <td className="text-center  font-bold text-gray-700">{product.quantity}</td>
-                <td className="text-right  font-bold text-gray-700">{product.amount} Rs</td>
+                <td className="text-left text-md font-bold text-black  w-48">{product.name}</td>
+                <td className="text-center text-md font-bold text-black">{product.quantity}</td>
+                <td className="text-right text-md font-bold text-black">{product.amount} Rs</td>
             </tr>))}
 
         </tbody>
         <tfoot className="">
         {invoiceForm?.taxes?.map((tax, index) => (
             <tr  key={`${index}_${tax.id}`} className="">
-                <td className="text-left font-bold text-gray-700">Discount</td>
-                <td className="text-center font-bold text-gray-700"></td>
-                <td className="text-right font-bold text-gray-700">{tax.amount} Rs</td>
+                <td className="text-left font-bold text-black">Discount</td>
+                <td className="text-center font-bold text-black"></td>
+                <td className="text-right font-bold text-black">{tax.amount} Rs</td>
             </tr>))}
             <tr className="">
-                <td className="text-left font-bold text-gray-700">Total</td>
-                <td className="text-center font-bold text-gray-700"></td>
-                <td className="text-right font-bold text-gray-700">{invoiceForm?.totalAmount} Rs</td>
+                <td className="text-left font-bold text-black">Total</td>
+                <td className="text-center font-bold text-black"></td>
+                <td className="text-right font-bold text-black">{invoiceForm?.totalAmount} Rs</td>
             </tr>
         </tfoot>
     </table>
-    <div className="text-gray-700  font-bold mb-2">NO EXCHANGE NO RETURNS!</div>
-    <div className="text-gray-700  font-bold">Thank you for purchasing</div>
+    <div className="text-black  font-bold mb-2">NO EXCHANGE NO RETURNS!</div>
+    <div className="text-black  font-bold">Thank you for purchasing</div>
 </div>
     </div>
     </div>
