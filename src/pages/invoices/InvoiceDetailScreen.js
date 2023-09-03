@@ -5,6 +5,7 @@ import React, {
   useState,
   useRef,
 } from "react";
+import imageData from '../../shared/imageData.json'
 import { useNavigate, useParams } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import { useReactToPrint } from "react-to-print";
@@ -147,7 +148,7 @@ function InvoiceDetailScreen(props) {
     }
     setIsViewMode((prev) => !prev);
   }, [invoiceForm, isViewMode]);
-
+console.log(imageData[3].base64)
   const openSettingModal = useCallback(() => {
     if (invoiceForm.statusIndex !== "1" && isViewMode) {
       toast.warn("You can only change Setting on Draft Mode", {
@@ -1431,36 +1432,37 @@ setInvno(invoicenumber())
         </div>
       )}
       <div className=" ">
-         <div    className='special' id="printThis">
-        <div ref={componentRef} className="bg-white rounded-lg  px-6  max-w-md mx-auto mt-16">
-    <h1 className="font-bold text-2xl my-2 text-center text-black">{invoiceForm?.companyDetail?.companyName || "Company Name"}</h1>
-    <h1 className=" text my-2 text-center text-black">{invoiceForm?.companyDetail?.billingAddress || "Company Name"}</h1>
-    <h1 className=" text my-2 text-center text-black">{invoiceForm?.companyDetail?.companyMobile || "Company Name"}</h1>
+         <div    className='special hidden' id="printThis">
+        <div ref={componentRef} className="bg-white rounded-lg  px-6  max-w-md mx-auto ">
+    {/* <h1 className="font-bold text-2xl my-2 text-center text-black">{invoiceForm?.companyDetail?.companyName || "Company Name"}</h1> */}
+    <h1 className="font-bold text-2xl my-2 text-center text-black"><img className="pt-4" src={imageData[2].base64} alt="" /></h1>
+    <h1 className=" text my-2 text-center font-bold text-black">{invoiceForm?.companyDetail?.billingAddress || "Company Name"}</h1>
+    <h1 className=" text my-2 text-center font-bold text-black">{invoiceForm?.companyDetail?.companyMobile || "Company Name"}</h1>
     <hr className="mb-2"/>
     <div className="flex justify-between mb-6">
         <h1 className="text-lg font-bold">Invoice</h1>
         <div className="text-gray-700 w-36">
           <div className="flex">
-            <div className="">Date:</div>
+            <div className=" font-bold">Date:</div>
             <DatePicker 
                     selected={invoiceForm?.createdDate}
                    
                     disabled={true}
                     className={
-                      " border-white bg-white !w-28 ml-1"
+                      " border-white  font-bold bg-white !w-28 ml-1"
                     }
                   >Date </DatePicker>
           </div>
        
-            <div>Invoice #: {invoiceForm?.invoiceNo}</div>
+            <div className=" font-bold">Invoice #: {invoiceForm?.invoiceNo}</div>
         </div>
     </div>
     <div className="mb-8">
         <h2 className="text-lg font-bold mb-4">Bill To:</h2>
-        <div className="text-gray-700 mb-2">{invoiceForm?.clientDetail?.name}</div>
-        <div className="text-gray-700 mb-2">{invoiceForm?.clientDetail?.mobileNo}</div>
-        <div className="text-gray-700 mb-2">{invoiceForm?.clientDetail?.billingAddress}</div>
-        <div className="text-gray-700">{invoiceForm?.clientDetail?.email}</div>
+        <div className="text-gray-700 font-bold mb-2">{invoiceForm?.clientDetail?.name}</div>
+        <div className="text-gray-700 font-bold mb-2">{invoiceForm?.clientDetail?.mobileNo}</div>
+        <div className="text-gray-700 font-bold mb-2">{invoiceForm?.clientDetail?.billingAddress}</div>
+        <div className="text-gray-700 font-bold">{invoiceForm?.clientDetail?.email}</div>
     </div>
     <table className="w-full mb-8">
         <thead>
@@ -1474,9 +1476,9 @@ setInvno(invoicenumber())
         {invoiceForm?.products?.map((product, index) => (
          
             <tr  key={`${index}_${product.slug}`} className="">
-                <td className="text-left text-gray-700 text-sm w-48">{product.name}</td>
-                <td className="text-center text-gray-700">{product.quantity}</td>
-                <td className="text-right text-gray-700">{product.amount} Rs</td>
+                <td className="text-left  font-bold text-gray-700 text-sm w-48">{product.name}</td>
+                <td className="text-center  font-bold text-gray-700">{product.quantity}</td>
+                <td className="text-right  font-bold text-gray-700">{product.amount} Rs</td>
             </tr>))}
 
         </tbody>
@@ -1494,8 +1496,8 @@ setInvno(invoicenumber())
             </tr>
         </tfoot>
     </table>
-    <div className="text-gray-700 mb-2">NO CHANGES NO RETURNS!</div>
-    <div className="text-gray-700">Thank you for purchasing</div>
+    <div className="text-gray-700  font-bold mb-2">NO EXCHANGE NO RETURNS!</div>
+    <div className="text-gray-700  font-bold">Thank you for purchasing</div>
 </div>
     </div>
     </div>
