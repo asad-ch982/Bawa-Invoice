@@ -1432,7 +1432,7 @@ setInvno(invoicenumber())
         </div>
       )}
       <div className=" ">
-         <div    className='special hidden' id="printThis">
+         <div    className='special hidden ' id="printThis">
         <div ref={componentRef} className="bg-white rounded-lg  px-6  max-w-md mx-auto ">
     {/* <h1 className="font-bold text-2xl my-2 text-center text-black">{invoiceForm?.companyDetail?.companyName || "Company Name"}</h1> */}
     <h1 className="font-bold text-2xl my-2 text-center text-black"><img className="pt-4" src={imageData[2].base64} alt="" /></h1>
@@ -1443,7 +1443,7 @@ setInvno(invoicenumber())
         <h1 className="text-lg font-bold">Invoice</h1>
         <div className="text-gray-700 w-36">
           <div className="flex">
-            <div className=" font-bold">Date:</div>
+            <div className="text-black font-bold">Date:</div>
             <DatePicker 
                     selected={invoiceForm?.createdDate}
                    
