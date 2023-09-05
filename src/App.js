@@ -84,6 +84,7 @@ const App = () => {
   };
 
   useEffect(() => {
+    console.log(process.env.PROXY)
     const token = localStorage.getItem("Token");
     if (token) {
       setEscapeOverflow(true);
