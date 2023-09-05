@@ -97,7 +97,7 @@ function CustomInvoice({reset}) {
 
     setIsTouched(true);
   
-    const response = await fetch("https://invoice-data.vercel.app/cusinvoice",{
+    const response = await fetch(`${process.env.REACT_APP_PROXY}/cusinvoice`,{
       method:'POST',
     
       headers:{

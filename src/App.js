@@ -38,7 +38,7 @@ const App = () => {
   const authNo = useSelector(getAuthNo);
   const clicked = async () => {
     setEscapeOverflow(true);
-    const response = await fetch("https://invoice-data.vercel.app/getauth", {
+    const response = await fetch(`${process.env.REACT_APP_PROXY}/getauth`, {
       method: "POST",
 
       headers: {
@@ -61,7 +61,7 @@ const App = () => {
     }
   };
   const check = async (token) => {
-    const response = await fetch("https://invoice-data.vercel.app/verifyauth", {
+    const response = await fetch(`${process.env.REACT_APP_PROXY}/verifyauth`, {
       method: "POST",
 
       headers: {
@@ -84,7 +84,7 @@ const App = () => {
   };
 
   useEffect(() => {
-    console.log(process.env.REACT_APP_PROXY)
+    console.log(`${process.env.REACT_APP_PROXY}/getauth`)
     const token = localStorage.getItem("Token");
     if (token) {
       setEscapeOverflow(true);

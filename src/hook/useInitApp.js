@@ -24,7 +24,7 @@ const useInitApp = () => {
     const token = JSON.parse(localStorage.getItem("Token"))
     var d = new Date(Date.now());
     const date= d.toLocaleDateString('en-GB');
-    const response = await fetch("https://invoice-data.vercel.app/getinvoices",{
+    const response = await fetch(`${process.env.REACT_APP_PROXY}/getinvoices`,{
       method:'POST',
       // mode:"no-cors",
       headers:{
@@ -40,7 +40,7 @@ const useInitApp = () => {
   }
   const getProducts =async()=>{
     const token = JSON.parse(localStorage.getItem("Token"))
-    const response = await fetch("https://invoice-data.vercel.app/getprod",{
+    const response = await fetch(`${process.env.REACT_APP_PROXY}/getprod`,{
       method:'POST',
       // mode:"no-cors",
       headers:{
@@ -56,7 +56,7 @@ const useInitApp = () => {
   }
   const getcompany =async()=>{
     const token = JSON.parse(localStorage.getItem("Token"))
-    const response = await fetch("https://invoice-data.vercel.app/getcompany",{
+    const response = await fetch(`${process.env.REACT_APP_PROXY}/getcompany`,{
       method:'POST',
       // mode:"no-cors",
       headers:{
@@ -72,7 +72,7 @@ const useInitApp = () => {
   }
   const getclients =async()=>{
     const token = JSON.parse(localStorage.getItem("Token"))
-    const response = await fetch("https://invoice-data.vercel.app/getclients",{
+    const response = await fetch(`${process.env.REACT_APP_PROXY}/getclients`,{
       method:'POST',
       // mode:"no-cors",
       headers:{
@@ -90,7 +90,7 @@ const useInitApp = () => {
     const token = JSON.parse(localStorage.getItem("Token"))
       var d = new Date(Date.now());
   const date= d.toLocaleDateString('en-GB');
-    const response = await fetch("https://invoice-data.vercel.app/getinvoicedetail",{
+    const response = await fetch(`${process.env.REACT_APP_PROXY}/getinvoicedetail`,{
   method:'POST',
 
   headers:{

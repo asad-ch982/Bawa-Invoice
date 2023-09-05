@@ -59,7 +59,7 @@ const setInvoices =async(invoice,invoicedetail)=>{
   const token = JSON.parse(localStorage.getItem("Token"))
   var d = new Date(Date.now());
   const date= d.toLocaleDateString('en-GB');
-  const response = await fetch("https://invoice-data.vercel.app/invoice",{
+  const response = await fetch(`${process.env.REACT_APP_PROXY}/invoice`,{
     method:'POST',
   
     headers:{
@@ -75,7 +75,7 @@ const setInvoices =async(invoice,invoicedetail)=>{
     
 const minus =async(invoicedetail)=>{
   const token = JSON.parse(localStorage.getItem("Token"))
-  const responsed = await fetch("https://invoice-data.vercel.app/minusprod",{
+  const responsed = await fetch(`${process.env.REACT_APP_PROXY}/minusprod`,{
     method:'POST',
   
     headers:{
@@ -87,7 +87,7 @@ const minus =async(invoicedetail)=>{
 
 const updateStatus =async(data)=>{
   const token = JSON.parse(localStorage.getItem("Token"))
-  const response = await fetch("https://invoice-data.vercel.app/updateStatus",{
+  const response = await fetch(`${process.env.REACT_APP_PROXY}/updateStatus`,{
     method:'POST',
   
     headers:{
@@ -100,7 +100,7 @@ const updateStatus =async(data)=>{
 
 const delInvoices =async(data)=>{
   const token = JSON.parse(localStorage.getItem("Token"))
-  const response = await fetch("https://invoice-data.vercel.app/delinvoice",{
+  const response = await fetch(`${process.env.REACT_APP_PROXY}/delinvoice`,{
     method:'POST',
 
     headers:{

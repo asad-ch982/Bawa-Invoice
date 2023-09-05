@@ -27,7 +27,7 @@ const initialState = {
 };
 const setProducts =async(data)=>{
   const token = JSON.parse(localStorage.getItem("Token"))
-  const response = await fetch("https://invoice-data.vercel.app/addprod",{
+  const response = await fetch(`${process.env.REACT_APP_PROXY}/addprod`,{
     method:'POST',
     headers:{
       'content-type':'application/json'
@@ -38,7 +38,7 @@ const setProducts =async(data)=>{
 }
 const delProducts =async(data)=>{
   const token = JSON.parse(localStorage.getItem("Token"))
-  const response = await fetch("https://invoice-data.vercel.app/delprod",{
+  const response = await fetch(`${process.env.REACT_APP_PROXY}/delprod`,{
     method:'POST',
     headers:{
       'content-type':'application/json'
@@ -49,7 +49,7 @@ const delProducts =async(data)=>{
 }
 const updateProducts =async(prod)=>{
   const token = JSON.parse(localStorage.getItem("Token"))
-  const response = await fetch("https://invoice-data.vercel.app/updateprod",{
+  const response = await fetch(`${process.env.REACT_APP_PROXY}/updateprod`,{
     method:'POST',
     headers:{
       'content-type':'application/json'

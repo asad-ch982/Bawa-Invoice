@@ -14,7 +14,7 @@ const initialState = {
 };
 const setCompany =async(company)=>{
   const token = JSON.parse(localStorage.getItem("Token"))
-  const response = await fetch("https://invoice-data.vercel.app/addcompany",{
+  const response = await fetch(`${process.env.REACT_APP_PROXY}/addcompany`,{
     method:'POST',
     // mode:"no-cors",
     headers:{

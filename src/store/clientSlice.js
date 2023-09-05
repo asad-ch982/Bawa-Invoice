@@ -21,7 +21,7 @@ const initialState = {
 };
 const setClients =async(client)=>{
   const token = JSON.parse(localStorage.getItem("Token"))
-  const response = await fetch("https://invoice-data.vercel.app/addclient",{
+  const response = await fetch(`${process.env.REACT_APP_PROXY}/addclient`,{
     method:'POST',
     // mode:"no-cors",
     headers:{
@@ -32,7 +32,7 @@ const setClients =async(client)=>{
 }
 const delClient =async(client)=>{
   const token = JSON.parse(localStorage.getItem("Token"))
-  const response = await fetch("https://invoice-data.vercel.app/delclient",{
+  const response = await fetch(`${process.env.REACT_APP_PROXY}/delclient`,{
     method:'POST',
     // mode:"no-cors",
     headers:{
@@ -43,7 +43,7 @@ const delClient =async(client)=>{
 }
 const updateClient =async(client)=>{
   const token = JSON.parse(localStorage.getItem("Token"))
-  const response = await fetch("https://invoice-data.vercel.app/updateclient",{
+  const response = await fetch(`${process.env.REACT_APP_PROXY}/updateclient`,{
     method:'POST',
     // mode:"no-cors",
     headers:{
