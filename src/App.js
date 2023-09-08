@@ -90,7 +90,7 @@ const App = () => {
       setEscapeOverflow(true);
       const code = JSON.parse(token);
       check(code);
-    } else if (!token) {
+    } else{
       localStorage.removeItem("Token")
       window.location.reload()
       setLoading(true);
