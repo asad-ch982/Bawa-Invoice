@@ -92,7 +92,6 @@ const App = () => {
       check(code);
     } else{
       localStorage.removeItem("Token")
-      window.location.reload()
       setLoading(true);
     }
 
