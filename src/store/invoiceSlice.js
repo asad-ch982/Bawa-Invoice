@@ -25,7 +25,7 @@ const initialState = {
   currentEditedID: null,
   newForm: {
     id: nanoid(),
-    invoiceNo: "",
+    invoiceNo: '',
     statusIndex: "1",
     statusName: "Draft",
     totalAmount: 1200,

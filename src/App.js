@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import DashboardScreen from "./pages/DashboardScreen";
 import ClientListScreen from "./pages/clients/ClientListScreen";
 import ProductListScreen from "./pages/products/ProductListScreen";
+import ClosingScreen from "./pages/closing/ClosingScreen";
 import InvoiceListScreen from "./pages/invoices/InvoiceListScreen";
 import InvoiceDetailScreen from "./pages/invoices/InvoiceDetailScreen";
 import AboutScreen from "./pages/about/AboutScreen";
@@ -84,13 +85,14 @@ const App = () => {
   };
 
   useEffect(() => {
-    console.log(`${process.env.REACT_APP_PROXY}/getauth`)
     const token = localStorage.getItem("Token");
     if (token) {
       setEscapeOverflow(true);
       const code = JSON.parse(token);
       check(code);
     } else if (!token) {
+      localStorage.removeItem("Token")
+      window.location.reload()
       setLoading(true);
     }
 
@@ -181,6 +183,7 @@ const App = () => {
               <Route path="clients" element={<ClientListScreen />}></Route>
 
               <Route path="products" element={<ProductListScreen />}></Route>
+              <Route path="closing" element={<ClosingScreen />}></Route>
 
               <Route path="invoices">
                 <Route path="" element={<InvoiceListScreen />} exact />

@@ -97,6 +97,7 @@ function InvoiceDetailScreen(props) {
     statusIndex: 1,
   });
 
+
   const handleExport = useCallback(() => {
     if (showNavbar) {
       toggleNavbar();
@@ -148,7 +149,6 @@ function InvoiceDetailScreen(props) {
     }
     setIsViewMode((prev) => !prev);
   }, [invoiceForm, isViewMode]);
-console.log(imageData[3].base64)
   const openSettingModal = useCallback(() => {
     if (invoiceForm.statusIndex !== "1" && isViewMode) {
       toast.warn("You can only change Setting on Draft Mode", {
@@ -170,7 +170,7 @@ console.log(imageData[3].base64)
 
   const addEmptyProduct = useCallback(() => {
     const emptyProduct = {
-      id: nanoid(),
+      slug: nanoid(),
       name: "",
       productID: "",
       amount: 1,
@@ -209,6 +209,7 @@ console.log(imageData[3].base64)
   }, []);
 
   const handlerInvoiceValue = useCallback((event, keyName) => {
+
     const value =
       typeof event === "string" ? new Date(event) : event?.target?.value;
 
@@ -462,6 +463,7 @@ const invoicenumber = ()=>{
   const data = JSON.stringify(Date.now())
   return data
 }
+
 const [invno, setInvno] = useState('')
   useEffect(() => {
 setInvno(invoicenumber())
@@ -615,6 +617,14 @@ setInvno(invoicenumber())
       }
     }
   }, [dispatch, invoiceForm, isConfirm, navigate, params, statusData]);
+const putInvoiceNo =()=>{
+    if (params.id==="new") {
+    const ki = "invoiceNo"
+    setInvoiceForm((prev) => {
+      return { ...prev, [ki]: Math.floor(Math.random() * 1000000) };
+    });
+  }
+}
   return (
     <div>
       <div className="p-4">
@@ -800,7 +810,7 @@ setInvno(invoicenumber())
             </div>
             <div className="flex-1">
               <div className="flex flex-row justify-between items-center mb-1">
-                <div className="font-title flex-1"> INVOICE # </div>
+                <div onClick={putInvoiceNo} className="font-title flex-1 cursor-pointer"> INVOICE # </div>
                 <div className="font-title flex-1 text-right">
                   {!isViewMode ? (
                     <input
@@ -1496,7 +1506,7 @@ setInvno(invoicenumber())
             </tr>
         </tfoot>
     </table>
-    <div className="text-black  font-bold mb-2">NO EXCHANGE NO RETURNS!</div>
+    <div className="text-black  font-bold mb-2">NO RETURN NO EXCHANGE !</div>
     <div className="text-black  font-bold">Thank you for purchasing</div>
 </div>
     </div>

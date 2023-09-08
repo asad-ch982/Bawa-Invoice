@@ -8,11 +8,11 @@ import Button from "../Button/Button";
 import SectionTitle from "../Common/SectionTitle";
 import { useAppContext } from "../../context/AppContext";
 import DatePicker from "react-datepicker";
-import moment from"moment";
+import moment from "moment";
 import {
-    setAllInvoice,
-    setAllInvoiceDetailList,
-  } from "../../store/invoiceSlice";
+  setAllInvoice,
+  setAllInvoiceDetailList,
+} from "../../store/invoiceSlice";
 import {
   defaultInputStyle,
   defaultInputInvalidStyle,
@@ -22,147 +22,62 @@ import {
   defaultSkeletonNormalStyle,
 } from "../../constants/defaultStyles";
 
-
-
-
-function CustomInvoice({reset}) {
+function CustomInvoice({ reset }) {
   const dispatch = useDispatch();
 
-  const { initLoading: isInitLoading } = useAppContext();
+  const { initLoading: isInitLoading ,setEscapeOverflow} = useAppContext();
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setendDate] = useState(new Date());
   const [isTouched, setIsTouched] = useState(false);
-  const [start, setStart] = useState('')
-  const [end, setEnd] = useState('')
- 
-
-
-  const fetchDetailData =async(invoiceDetailList)=>{
-    setIsTouched(true);
-    let invoiceDetailData = []
-    for (const key in invoiceDetailList) {
-      if (invoiceDetailList.hasOwnProperty(key) && invoiceDetailList[key].id) {
-        invoiceDetailData.push({id:invoiceDetailList[key].id}); 
-      } 
-  }
-    const response = await fetch("https://invoice-data.vercel.app/cusinvoicedata",{
-      method:'POST',
-    
-      headers:{
-        'content-type':'application/json'
-      },
-      body: JSON.stringify({start:start,end:end,data:invoiceDetailData})
-    })
-    try {
-      
-  
-      const text = await response.text();
-        const lines = text.split('\n');
-        const newData = lines
-          .filter((line) => line.trim() !== '') // Filter out empty lines
-          .map((line) => JSON.parse(line));
-      
-     
-   
-  
-   const invoiceDetailList = newData[0]
-  //  const invoices = newData[0]
-  //    let invoiceData = []
-  //    let invoiceDetailData = []
-  //     for (const key in invoiceDetailList) {
-  //       if (invoiceDetailList.hasOwnProperty(key) && invoiceDetailList[key].data) {
-  //         invoiceDetailData.push(invoiceDetailList[key].data); 
-  //       } 
-  //   }
-  //   for (const key in invoices) {
-  //     if (invoices.hasOwnProperty(key) && invoices[key].data) {
-  //         invoiceData.push(...invoices[key].data); 
-  //     } 
-  // }
-  
-  
-  //  dispatch(setAllInvoice(invoices));
-   dispatch(setAllInvoiceDetailList(invoiceDetailList));
-  } catch (error) {
-      if (error) {
-        console.log(error)
-        return
-      }
-  }
-  }
-
-
-  const submitHandler = async() => {
-    const token = JSON.parse(localStorage.getItem("Token"))
+  const [start, setStart] = useState("");
+  const [end, setEnd] = useState("");
+  const submitHandler = async () => {
+setEscapeOverflow(true)
+    const token = JSON.parse(localStorage.getItem("Token"));
 
     setIsTouched(true);
-  
-    const response = await fetch(`${process.env.REACT_APP_PROXY}/cusinvoice`,{
-      method:'POST',
-    
-      headers:{
-        'content-type':'application/json'
+
+    const response = await fetch(`${process.env.REACT_APP_PROXY}/cusinvoice`, {
+      method: "POST",
+
+      headers: {
+        "content-type": "application/json",
       },
-      body: JSON.stringify({start:start,end:end,token:token})
-    })
+      body: JSON.stringify({ start: start, end: end, token: token }),
+    });
     try {
-      
-     
       const text = await response.text();
-        const lines = text.split('\n');
-        const newData = lines
-          .filter((line) => line.trim() !== '') // Filter out empty lines
-          .map((line) => JSON.parse(line));
-      
-     
-   
- 
-  //  const invoiceDetailList = newData[1]
-   const invoices = newData[0]
-  //  fetchDetailData(invoices);
-   console.log(invoices)
-//    let invoiceData = []
-//    let invoiceDetailData = []
-//     for (const key in invoiceDetailList) {
-//       if (invoiceDetailList.hasOwnProperty(key) && invoiceDetailList[key].data) {
-//         invoiceDetailData.push(invoiceDetailList[key].data); 
-//       } 
-//   }
-//   for (const key in invoices) {
-//     if (invoices.hasOwnProperty(key) && invoices[key].data) {
-//         invoiceData.push(...invoices[key].data); 
-//     } 
-// }
-  
-  
-   dispatch(setAllInvoice(invoices));
-  //  dispatch(setAllInvoiceDetailList(invoiceDetailList));
-  } catch (error) {
+      const lines = text.split("\n");
+      const newData = lines
+        .filter((line) => line.trim() !== "") // Filter out empty lines
+        .map((line) => JSON.parse(line));
+      const invoices = newData[0];
+
+      dispatch(setAllInvoice(invoices));
+      //  dispatch(setAllInvoiceDetailList(invoiceDetailList));
+    } catch (error) {
       if (error) {
-        console.log(error)
-        return
+        console.log(error);
+        return;
       }
-  }
-// reset()
-toast.success("Done!", {
-    position: "bottom-center",
-    autoClose: 2000,
-  });
+    }
+    // reset()
+    toast.success("Done!", {
+      position: "bottom-center",
+      autoClose: 2000,
+    });
+    setEscapeOverflow(false)
     setIsTouched(false);
-  }
+  };
 
-
-
-
-  
-  const handlerstart =(date)=>{
-    setStart(moment(date).format('YYYY-MM-DD'))
-    setStartDate(date)
-  }
-  const handlerend =(date)=>{
-    setEnd(moment(date).format('YYYY-MM-DD'))
-    setendDate(date)
-  }
+  const handlerstart = (date) => {
+    setStart(moment(date).format("YYYY-MM-DD"));
+    setStartDate(date);
+  };
+  const handlerend = (date) => {
+    setEnd(moment(date).format("YYYY-MM-DD"));
+    setendDate(date);
+  };
 
   return (
     <div className="bg-white rounded-xl p-4">
@@ -174,14 +89,11 @@ toast.success("Done!", {
             <Skeleton className={defaultSkeletonNormalStyle} />
           ) : (
             <DatePicker
-            selected={startDate}
-            onChange={(date) =>
-              handlerstart(date)
-            }
-            disabled={isInitLoading}
-            className=" text-right bg-white  border-blue-700 w-28 ml-2 rounded-lg px-3 border-2"
-            
-          />
+              selected={startDate}
+              onChange={(date) => handlerstart(date)}
+              disabled={isInitLoading}
+              className=" text-right bg-white  border-blue-700 w-28 ml-2 rounded-lg px-3 border-2"
+            />
           )}
         </div>
       </div>
@@ -192,18 +104,14 @@ toast.success("Done!", {
             <Skeleton className={defaultSkeletonNormalStyle} />
           ) : (
             <DatePicker
-            selected={endDate}
-            onChange={(date) =>
-              handlerend(date)
-            }
-            disabled={isInitLoading}
-            className=" text-right bg-white  border-blue-700 w-28 ml-2 rounded-lg px-3 border-2"
-            
-          />
+              selected={endDate}
+              onChange={(date) => handlerend(date)}
+              disabled={isInitLoading}
+              className=" text-right bg-white  border-blue-700 w-28 ml-2 rounded-lg px-3 border-2"
+            />
           )}
         </div>
       </div>
-
 
       <div className="mt-3">
         <Button onClick={submitHandler} block={1}>

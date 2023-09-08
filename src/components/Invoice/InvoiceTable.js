@@ -88,7 +88,6 @@ function InvoiceTable({ showAdvanceSearch = false }) {
       });
       const json = await response.json();
       const data = json.data.data;
-      console.log(data);
       dispatch(addNewDetailData(data));
       setEscapeOverflow(false)
     }
