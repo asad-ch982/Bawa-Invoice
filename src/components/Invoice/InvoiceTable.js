@@ -78,7 +78,7 @@ function InvoiceTable({ showAdvanceSearch = false }) {
     } else if (!getInvoiceDetail) {
      
       setEscapeOverflow(true)
-      const response = await fetch("https://invoice-data.vercel.app/getcusinvoicedata", {
+      const response = await fetch(`${process.env.REACT_APP_PROXY}/getcusinvoicedata`, {
         method: "POST",
 
         headers: {
