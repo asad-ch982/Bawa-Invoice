@@ -1,7 +1,6 @@
 import React from 'react'
 import PageTitle from "../../components/Common/PageTitle";
-import ProductTable from "../../components/Product/ProductTable";
-import QuickAddProduct from "../../components/Product/QuickAddProduct";
+import ClosingTable from '../../components/Closing/ClosingTable';
 const ClosingScreen = () => {
   return (
     <div>
@@ -11,7 +10,7 @@ const ClosingScreen = () => {
 
     <div className="pr-4">
       <div className="w-full  pl-4 pr-4 sm:pl-4 sm:pr-0 mb-4 sm:mb-1">
-        <ProductTable showAdvanceSearch />
+       <ClosingTable/>
       </div>
     </div>
   </div>
