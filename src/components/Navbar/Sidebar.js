@@ -34,7 +34,11 @@ const NAV_DATA = [
     title: "Products",
     link: "products",
     Icon: ProductIcon,
-  },
+  },{
+    title: "Closing",
+    link: "closing",
+    Icon: SecurityIcon,
+  }
 ];
 
 const navDefaultClasses =

@@ -2,17 +2,22 @@ import React,{useState,useEffect,useCallback,useRef} from "react";
 import ProductIcon from "../Icons/ProductIcon";
 import { useAppContext } from "../../context/AppContext";
 import { useReactToPrint } from "react-to-print";
-
-
-
+import { defaultSkeletonNormalStyle } from "../../constants/defaultStyles";
+import Skeleton from "react-loading-skeleton";
+import DatePicker from "react-datepicker";
+import moment from "moment";
 
 const ClosingTable=()=> {
-    const { initLoading, showNavbar, toggleNavbar, setEscapeOverflow } =
+    const { initLoading: isInitLoading, showNavbar, toggleNavbar, setEscapeOverflow } =
     useAppContext();
-const [productDetail, setProductDetail] = useState(null)
-const fetchData = async()=>{
     var d = new Date(Date.now());
     const date= d.toLocaleDateString('en-GB');
+const [productDetail, setProductDetail] = useState(null)
+const [startDate, setStartDate] = useState(new Date())
+const [start, setStart] = useState(date);
+const fetchData = async()=>{
+   setEscapeOverflow(true)
+   try {
     const token = JSON.parse(localStorage.getItem("Token"))
     const response = await fetch(`${process.env.REACT_APP_PROXY}/closing`, {
         method: "POST",
@@ -20,11 +25,16 @@ const fetchData = async()=>{
         headers: {
           "content-type": "application/json",
         },
-        body: JSON.stringify({date:date,token:token }),
+        body: JSON.stringify({date:start,token:token }),
       });
   
       const json = await response.json();
       setProductDetail(json.detail)
+      setEscapeOverflow(false)
+    } catch (error) {
+        console.log(error)
+        setEscapeOverflow(false)
+    }
     }
     useEffect(() => {
     fetchData()
@@ -50,9 +60,32 @@ const fetchData = async()=>{
           handlePrint();
         }, 3000);
       }, [handlePrint, setEscapeOverflow, showNavbar, toggleNavbar]);
+      const handlerstart = (date) => {
+        setStart(moment(date).format("DD/MM/YYYY"));
+        console.log(start)
+        setStartDate(date);
+      };
     
     return (
         <>
+        <div className="mb-4 flex justify-between">
+        <div className="flex mt-2">
+        From:
+        <div className="flex-1">
+          {isInitLoading ? (
+            <Skeleton className={defaultSkeletonNormalStyle} />
+          ) : (
+            <DatePicker
+              selected={startDate}
+              onChange={(date) => handlerstart(date)}
+              disabled={isInitLoading}
+              className="  bg-white  border-blue-700 w-32 ml-2 rounded-lg px-3 border-2"
+            />
+          )}
+        </div>
+      </div>
+      <button onClick={fetchData} className="py-2 px-6 bg-red-600 text-white rounded-md items-center">Fetch</button>
+        </div>
             <div ref={componentRef} className="w-full sm:px-6">
               
                 <div className="bg-white shadow px-4 md:px-10 pt-4 md:pt-7 pb-5 overflow-y-auto">
@@ -63,7 +96,7 @@ const fetchData = async()=>{
                                 <th className="font-normal text-left pl-4">Sr #</th>
                                 <th className="font-normal text-left pl-12">Product Name</th>
                                 <th className="font-normal text-left pl-12">Quantity</th>
-                                <th className="font-normal text-left pl-20">Amount</th>
+                                <th className="font-normal text-left pl-20">Product Amount</th>
                                 <th className="font-normal text-left pl-20">ProductID</th>
                                 <th className="font-normal text-left pl-20">Total Amount</th>
                             </tr>
