@@ -2,6 +2,7 @@ import React, { useCallback, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { toast } from "react-toastify";
 import { useSelector, useDispatch } from "react-redux";
+import useReloadInvoice from "../../hook/useReloadInvoice";
 
 import {
   getIsInvoiceConfirmModal,
@@ -11,6 +12,7 @@ import {
 import CheckCircleIcon from "../Icons/CheckCircleIcon";
 
 function InvoiceConfirmModal(props) {
+  const { reloadData } = useReloadInvoice();
   const dispatch = useDispatch();
   const isOpenConfirmModal = useSelector(getIsInvoiceConfirmModal);
   const [animate, setAnimate] = useState(true);
@@ -18,6 +20,10 @@ function InvoiceConfirmModal(props) {
   const onConfirmModal = useCallback(() => {
     dispatch(setIsConfirm(true));
     dispatch(setConfirmModalOpen(false));
+    setTimeout(() => {
+      reloadData();
+    }, 5000);
+
     toast.success("Successfully Action", {
       position: "bottom-center",
       autoClose: 2000,

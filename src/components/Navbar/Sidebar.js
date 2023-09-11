@@ -39,6 +39,11 @@ const NAV_DATA = [
     link: "closing",
     Icon: SecurityIcon,
   }
+  ,{
+    title: "Unpaid Invoices",
+    link: "unpaid",
+    Icon: InvoiceIcon,
+  }
 ];
 
 const navDefaultClasses =

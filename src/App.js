@@ -9,6 +9,7 @@ import InvoiceListScreen from "./pages/invoices/InvoiceListScreen";
 import InvoiceDetailScreen from "./pages/invoices/InvoiceDetailScreen";
 import AboutScreen from "./pages/about/AboutScreen";
 import Container from "./components/Container/Container";
+import UnpaidInvoices from "./pages/invoices/UnpaidInvoices";
 import useInitApp from "./hook/useInitApp";
 import ClientDeleteConfirm from "./components/Clients/ClientDeleteConfirm";
 import ClientEditModal from "./components/Clients/ClientEditModal";
@@ -49,14 +50,14 @@ const App = () => {
     });
 
     const json = await response.json();
-    if (json.type === "SALESMAN" || json.type === "ADMIN") {
+    if ((json.type === "SALESMAN" || json.type === "ADMIN") && json.success) {
       localStorage.setItem("Token", JSON.stringify(json.token));
       dispatch(setAuthNo(json));
       initialSetData();
       setEscapeOverflow(false);
       setLoading(false);
       setAppOn(true);
-    } else {
+    }  else {
       setEscapeOverflow(false);
       alert("WRONG AUTHENTICATION");
     }
@@ -186,6 +187,10 @@ const App = () => {
 
               <Route path="invoices">
                 <Route path="" element={<InvoiceListScreen />} exact />
+                <Route path=":id" element={<InvoiceDetailScreen />} />
+              </Route>
+              <Route path="unpaid">
+                <Route path="" element={<UnpaidInvoices />} exact />
                 <Route path=":id" element={<InvoiceDetailScreen />} />
               </Route>
               <Route path="*" element={<Navigate to="/" replace />} />

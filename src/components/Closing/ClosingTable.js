@@ -12,7 +12,7 @@ const ClosingTable=()=> {
     useAppContext();
     var d = new Date(Date.now());
     const date= d.toLocaleDateString('en-GB');
-const [productDetail, setProductDetail] = useState(null)
+const [productDetail, setProductDetail] = useState({})
 const [startDate, setStartDate] = useState(new Date())
 const [start, setStart] = useState(date);
 const fetchData = async()=>{

@@ -10,6 +10,7 @@ import {
   INVOICE_DETAILS,
   INVOICE_FORM_KEY,
 } from "../constants/localKeys";
+import useReloadInvoice from "../hook/useReloadInvoice";
 
 const initialState = {
   isConfirmModal: false,
@@ -20,6 +21,7 @@ const initialState = {
   colors: colorData,
   images: imageData,
   data: [],
+  unpaiddata:[],
   detailList: [],
   deletedID: null,
   currentEditedID: null,
@@ -72,8 +74,9 @@ const setInvoices =async(invoice,invoicedetail)=>{
     minus(invoicedetail)
   }
 }
-    
+
 const minus =async(invoicedetail)=>{
+ 
   const token = JSON.parse(localStorage.getItem("Token"))
   const responsed = await fetch(`${process.env.REACT_APP_PROXY}/minusprod`,{
     method:'POST',
@@ -82,7 +85,13 @@ const minus =async(invoicedetail)=>{
       'content-type':'application/json'
     },
     body: JSON.stringify({invoicedetail:invoicedetail,token:token})
+
   })
+
+  const json = await responsed.json()
+  if (json.success) {
+    console.log(json)
+  }
 }
 
 const updateStatus =async(data)=>{
@@ -129,6 +138,10 @@ export const invoiceSlice = createSlice({
   reducers: {
     setAllInvoice: (state, action) => {
       state.data = action.payload;
+      
+    },
+    setAllUnpaidInvoice: (state, action) => {
+      state.unpaiddata = action.payload;
       
     },
 
@@ -299,6 +312,7 @@ updateStatus(action.payload)
 export const {
   setAllInvoice,
   setAllInvoiceDetailList,
+  setAllUnpaidInvoice,
   setNewInvoices,
   setDefaultColor,
   setDefaultBackground,
@@ -316,6 +330,7 @@ export const {
 } = invoiceSlice.actions;
 
 export const getAllInvoiceSelector = (state) => state.invoices.data;
+export const getAllUnpaidInvoiceSelector = (state) => state.invoices.unpaiddata;
 
 
 export const getAllColorSelector = (state) => state.invoices.colors;

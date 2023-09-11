@@ -10,6 +10,7 @@ import { updateNewClientForm, setAllClients } from "../store/clientSlice";
 import { updateCompanyData } from "../store/companySlice";
 import {
   setAllInvoice,
+  setAllUnpaidInvoice,
   setAllInvoiceDetailList,
   updateNewInvoiceForm,
 } from "../store/invoiceSlice";
@@ -25,6 +26,24 @@ const useInitApp = () => {
     var d = new Date(Date.now());
     const date= d.toLocaleDateString('en-GB');
     const response = await fetch(`${process.env.REACT_APP_PROXY}/getinvoices`,{
+      method:'POST',
+      // mode:"no-cors",
+      headers:{
+        'content-type':'application/json'
+      },
+      body: JSON.stringify({date:date,authno:authentication.authNo,token:token})
+    })
+   
+    const json = await response.json()
+    const data = json.data
+    return data
+    
+  }
+  const getUnpaidInvoices =async()=>{
+    const token = JSON.parse(localStorage.getItem("Token"))
+    var d = new Date(Date.now());
+    const date= d.toLocaleDateString('en-GB');
+    const response = await fetch(`${process.env.REACT_APP_PROXY}/getunpaid`,{
       method:'POST',
       // mode:"no-cors",
       headers:{
@@ -111,6 +130,7 @@ const json = await response.json()
       const companyData = await getcompany()
       const clients = await getclients()
       const invoiceDetailList= await getinvoicedetail()
+      const unpaid = await getUnpaidInvoices()
       const [
         // companyData,
         clientNewForm,
@@ -138,6 +158,10 @@ const json = await response.json()
       if (companyData) {
         
         dispatch(updateCompanyData(companyData));
+      }
+      if (unpaid) {
+        
+        dispatch(setAllUnpaidInvoice(unpaid));
       }
 
       if (clientNewForm) {

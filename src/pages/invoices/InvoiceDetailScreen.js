@@ -457,8 +457,12 @@ function InvoiceDetailScreen(props) {
   );
 
   const goInvoiceList = useCallback(() => {
+    if (invoiceForm?.statusName==="Unpaid") {
+      navigate("/unpaid");
+    }else{
     navigate("/invoices");
-  }, [navigate]);
+    }
+  }, [navigate,invoiceForm]);
 const invoicenumber = ()=>{
   const data = JSON.stringify(Date.now())
   return data
@@ -621,7 +625,7 @@ const putInvoiceNo =()=>{
     if (params.id==="new") {
     const ki = "invoiceNo"
     setInvoiceForm((prev) => {
-      return { ...prev, [ki]: Math.floor(Math.random() * 1000000) };
+      return { ...prev, [ki]: JSON.stringify(Math.floor(Math.random() * 1000000)) };
     });
   }
 }
