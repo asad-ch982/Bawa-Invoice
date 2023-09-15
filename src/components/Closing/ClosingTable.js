@@ -6,7 +6,6 @@ import { defaultSkeletonNormalStyle } from "../../constants/defaultStyles";
 import Skeleton from "react-loading-skeleton";
 import DatePicker from "react-datepicker";
 import moment from "moment";
-import WeeklyChart from "../charts/WeeklyChart";
 const ClosingTable=()=> {
     const { initLoading: isInitLoading, showNavbar, toggleNavbar, setEscapeOverflow } =
     useAppContext();
@@ -145,7 +144,6 @@ const fetchData = async()=>{
             <div className="mt-4 w-full container mx-10">
           {productDetail &&  <button onClick={handleExport} className="py-2 px-6 bg-red-600 text-white rounded-md items-center">Print</button>}
            </div>
-         <WeeklyChart/>
         </>
     );
 }
