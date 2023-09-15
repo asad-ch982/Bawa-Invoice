@@ -3,6 +3,7 @@ import { createSlice, nanoid } from "@reduxjs/toolkit";
 import localforage from "localforage";
 import imageData from "../shared/imageData.json";
 import colorData from "../shared/colorData.json";
+import { toast } from "react-toastify";
 import {
   INVOICES_KEY,
   DEFAULT_INVOICE_COLOR,
@@ -89,7 +90,11 @@ const minus =async(invoicedetail)=>{
   })
 
   const json = await responsed.json()
-  if (json.success) {
+  if (!json.success && responsed) {
+    toast.error("Product no updated", {
+      position: "bottom-center",
+      autoClose: 8000,
+    });
     console.log(json)
   }
 }

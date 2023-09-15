@@ -22,7 +22,7 @@ function InvoiceConfirmModal(props) {
     dispatch(setConfirmModalOpen(false));
     setTimeout(() => {
       reloadData();
-    }, 5000);
+    }, 10000);
 
     toast.success("Successfully Action", {
       position: "bottom-center",

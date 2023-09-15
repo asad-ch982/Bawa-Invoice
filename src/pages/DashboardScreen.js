@@ -8,6 +8,7 @@ import QuickEditCompany from "../components/Dashboard/QuickEditCompany";
 import ClientTable from "../components/Clients/ClientTable";
 import InvoiceTable from "../components/Invoice/InvoiceTable";
 import CustomInvoice from "../components/CustomInvoice/CustomInvoice";
+import WeeklyChart from "../components/charts/WeeklyChart";
 
 function DashboardScreen() {
   const navigate = useNavigate();
@@ -31,6 +32,9 @@ const reset =()=>{
       <div className="flex flex-wrap">
         <div className="w-full lg:w-4/6 pl-4 pr-4 sm:pl-4 sm:pr-0 mb-4 sm:mb-1">
           <DashboardWidgets />
+          <div className="mt-1">
+            <WeeklyChart/>
+          </div>
           <div className="mt-1">
             <InvoiceTable key={seed} />
           </div>

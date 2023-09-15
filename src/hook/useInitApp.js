@@ -156,7 +156,6 @@ const json = await response.json()
       ]);
 
       if (companyData) {
-        
         dispatch(updateCompanyData(companyData));
       }
       if (unpaid) {
