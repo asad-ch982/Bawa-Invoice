@@ -70,34 +70,17 @@ const setInvoices =async(invoice,invoicedetail)=>{
     },
     body: JSON.stringify({invoice:invoice,invoicedetail:invoicedetail,date:date,token})
   })
-  const json = response.json()
-  if (json.success) {
-    minus(invoicedetail)
-  }
+ if (!response) {
+  const json = await response.json()
+  toast.error(json.error, {
+    position: "bottom-center",
+    autoClose: 2000,
+  });
+ }
+
 }
 
-const minus =async(invoicedetail)=>{
- 
-  const token = JSON.parse(localStorage.getItem("Token"))
-  const responsed = await fetch(`${process.env.REACT_APP_PROXY}/minusprod`,{
-    method:'POST',
-  
-    headers:{
-      'content-type':'application/json'
-    },
-    body: JSON.stringify({invoicedetail:invoicedetail,token:token})
 
-  })
-
-  const json = await responsed.json()
-  if (!json.success && responsed) {
-    toast.error("Product no updated", {
-      position: "bottom-center",
-      autoClose: 8000,
-    });
-    console.log(json)
-  }
-}
 
 const updateStatus =async(data)=>{
   const token = JSON.parse(localStorage.getItem("Token"))
