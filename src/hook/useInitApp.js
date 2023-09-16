@@ -39,154 +39,23 @@ const handleMonth = async()=>{
 
     const json = await response.json();
     const invoices = json.invoices
-     let Sunday = []
-     let Monday = []
-     let Tuesday = []
-     let Wednesday = []
-     let Thursday = []
-     let Friday = []
-     let Saturday = []
-     for (const key in invoices) {
-       if (invoices.hasOwnProperty(key) && invoices[key].data) {
-         if (isoStringToDate( invoices[key].createdAt).getDay()===0) {
-            const day = {name:"Sun",Sale: invoices[key].data[0].totalAmount}
-            Sunday.push(day)
-         } 
-         else if (isoStringToDate( invoices[key].createdAt).getDay()===1) {
-          const day = {name:"Mon",Sale: invoices[key].data[0].totalAmount}
-          Monday.push(day)
-         }
-         else if (isoStringToDate( invoices[key].createdAt).getDay()===2) {
-          const day = {name:"Tue",Sale: invoices[key].data[0].totalAmount}
-          Tuesday.push(day)
-         }
-         else if (isoStringToDate( invoices[key].createdAt).getDay()===3) {
-          const day = {name:"Wed",Sale: invoices[key].data[0].totalAmount}
-          Wednesday.push(day)
-         }
-         else if (isoStringToDate( invoices[key].createdAt).getDay()===4) {
-          const day = {name:"Thu",Sale: invoices[key].data[0].totalAmount}
-          Thursday.push(day)
-         }
-         else if (isoStringToDate( invoices[key].createdAt).getDay()===5) {
-          const day = {name:"Fri",Sale: invoices[key].data[0].totalAmount}
-          Friday.push(day)
-         }
-         else if (isoStringToDate( invoices[key].createdAt).getDay()===6) {
-          const day = {name:"Sat",Sale: invoices[key].data[0].totalAmount}
-          Saturday.push(day)
-         }
+    const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
-       }
+    const dailySales = Array(7).fill(0);
+    
+    invoices.forEach((invoice) => {
+      if (invoice.data && invoice.createdAt) {
+        const dayIndex = isoStringToDate(invoice.createdAt).getDay();
+        dailySales[dayIndex] += invoice.data[0].totalAmount;
       }
-      const Sundayresult = Sunday.reduce((accumulator, currentValue) => {
-        // Check if the accumulator already has a property with the name
-        if (!accumulator[currentValue.name]) {
-          accumulator[currentValue.name] = {
-            name: currentValue.name,
-            Sale: 0,
-          };
-        }
-      
-        // Add the current price to the accumulator
-        accumulator[currentValue.name].Sale += currentValue.Sale;
-      
-        return accumulator;
-      }, {});
-      const   SunadyResult = Object.values(Sundayresult);
-      const Mondayresult = Monday.reduce((accumulator, currentValue) => {
-        // Check if the accumulator already has a property with the name
-        if (!accumulator[currentValue.name]) {
-          accumulator[currentValue.name] = {
-            name: currentValue.name,
-            Sale: 0,
-          };
-        }
-      
-        // Add the current price to the accumulator
-        accumulator[currentValue.name].Sale += currentValue.Sale;
-      
-        return accumulator;
-      }, {});
-      const   MondayResult = Object.values(Mondayresult);
-      const Tuesdayresult = Tuesday.reduce((accumulator, currentValue) => {
-        // Check if the accumulator already has a property with the name
-        if (!accumulator[currentValue.name]) {
-          accumulator[currentValue.name] = {
-            name: currentValue.name,
-            Sale: 0,
-          };
-        }
-      
-        // Add the current price to the accumulator
-        accumulator[currentValue.name].Sale += currentValue.Sale;
-      
-        return accumulator;
-      }, {});
-      const   TuesdayResult = Object.values(Tuesdayresult);
-      const Wednesdayresult = Wednesday.reduce((accumulator, currentValue) => {
-        // Check if the accumulator already has a property with the name
-        if (!accumulator[currentValue.name]) {
-          accumulator[currentValue.name] = {
-            name: currentValue.name,
-            Sale: 0,
-          };
-        }
-      
-        // Add the current price to the accumulator
-        accumulator[currentValue.name].Sale += currentValue.Sale;
-      
-        return accumulator;
-      }, {});
-      const   WednesdayResult = Object.values(Wednesdayresult);
-      const Thursdayresult = Thursday.reduce((accumulator, currentValue) => {
-        // Check if the accumulator already has a property with the name
-        if (!accumulator[currentValue.name]) {
-          accumulator[currentValue.name] = {
-            name: currentValue.name,
-            Sale: 0,
-          };
-        }
-      
-        // Add the current price to the accumulator
-        accumulator[currentValue.name].Sale += currentValue.Sale;
-      
-        return accumulator;
-      }, {});
-      const   ThursdayResult = Object.values(Thursdayresult);
-      const Fridayresult = Friday.reduce((accumulator, currentValue) => {
-        // Check if the accumulator already has a property with the name
-        if (!accumulator[currentValue.name]) {
-          accumulator[currentValue.name] = {
-            name: currentValue.name,
-            Sale: 0,
-          };
-        }
-      
-        // Add the current price to the accumulator
-        accumulator[currentValue.name].Sale += currentValue.Sale;
-      
-        return accumulator;
-      }, {});
-      const   FridayResult = Object.values(Fridayresult);
-      const Saturdayresult = Saturday.reduce((accumulator, currentValue) => {
-        // Check if the accumulator already has a property with the name
-        if (!accumulator[currentValue.name]) {
-          accumulator[currentValue.name] = {
-            name: currentValue.name,
-            Sale: 0,
-          };
-        }
-      
-        // Add the current price to the accumulator
-        accumulator[currentValue.name].Sale += currentValue.Sale;
-      
-        return accumulator;
-      }, {});
-      const   SaturdayResult = Object.values(Saturdayresult);
-      const ChartData = []
-      ChartData.push(SunadyResult[0],MondayResult[0],TuesdayResult[0],WednesdayResult[0],ThursdayResult[0],FridayResult[0],SaturdayResult[0])
-      return ChartData
+    });
+    
+    const chartData = days.map((day, index) => ({
+      name: day,
+      Sale: dailySales[index],
+    }));
+    
+    return chartData;
   } catch (error) {
       console.log(error)
   
