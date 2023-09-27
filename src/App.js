@@ -26,6 +26,9 @@ import InvoiceNavbarLoading from "./components/Loading/InvoiceNavbarLoading";
 import { useDispatch, useSelector } from "react-redux";
 import { getAuthNo, setAuthNo } from "./store/authSlice";
 import { useAppContext } from "./context/AppContext";
+import SecurityScreen from "./pages/security/SecurityScreen";
+import SecurityEditModal from "./components/Security/SecurityEditModal";
+import SecurityDeleteConfirm from "./components/Security/SecurityDeleteConfirm";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -184,6 +187,7 @@ const App = () => {
 
               <Route path="products" element={<ProductListScreen />}></Route>
               <Route path="closing" element={<ClosingScreen />}></Route>
+              <Route path="security" element={<SecurityScreen />}></Route>
 
               <Route path="invoices">
                 <Route path="" element={<InvoiceListScreen />} exact />
@@ -202,6 +206,8 @@ const App = () => {
           <ClientChooseModal />
           <ProductDeleteConfirm />
           <ProductEditModal />
+          <SecurityEditModal/>
+          <SecurityDeleteConfirm/>
           <ProductChoosenModal />
           <InvoiceSettingModal />
           <InvoiceConfirmModal />

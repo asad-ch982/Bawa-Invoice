@@ -13,6 +13,7 @@ import SecurityIcon from "../Icons/SecurityIcon";
 import InvoiceNavbarLoading from "../Loading/InvoiceNavbarLoading";
 import { getCompanyData } from "../../store/companySlice";
 import Skeleton from "react-loading-skeleton";
+import Closing from "../Icons/Closing";
 
 const NAV_DATA = [
   {
@@ -37,12 +38,17 @@ const NAV_DATA = [
   },{
     title: "Closing",
     link: "closing",
-    Icon: SecurityIcon,
+    Icon: Closing,
   }
   ,{
     title: "Unpaid Invoices",
     link: "unpaid",
     Icon: InvoiceIcon,
+  }
+  ,{
+    title: "Security",
+    link: "security",
+    Icon: SecurityIcon,
   }
 ];
 
@@ -122,7 +128,7 @@ const clicked = ()=>{
               <NavLink
                 to={link}
                 className={" rounded-md side-link"}
-               
+              
                 onClick={onClickNavbar}
               >
                 {({ isActive }) => (

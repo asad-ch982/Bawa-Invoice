@@ -224,7 +224,7 @@ function QuickAddProduct() {
           </div>
         </div>
       </div>
-      {/* <div className="mt-2">
+     {/* <div className="mt-2">
         <div className="font-title text-sm text-default-color">
           Product Category
         </div>
@@ -301,8 +301,8 @@ function QuickAddProduct() {
             )}
           </div>
         </div>
-      </div>
-      <div className="mt-2">
+      </div> */}
+      {/* <div className="mt-2">
         <div className="font-title text-sm text-default-color">
           Product WholeSale Price
         </div>
@@ -327,8 +327,8 @@ function QuickAddProduct() {
             )}
           </div>
         </div>
-      </div>
-      <div className="mt-2">
+      </div> */}
+      {/* <div className="mt-2">
         <div className="font-title text-sm text-default-color">
           Product Company
         </div>
@@ -379,7 +379,7 @@ function QuickAddProduct() {
             )}
           </div>
         </div>
-      </div> */}
+      </div>  */}
       <div className="mt-3">
         <Button onClick={submitHandler} block={1}>
           <span className="inline-block ml-2"> Submit </span>

@@ -74,6 +74,7 @@ export const productSlice = createSlice({
         name,
         amount,
         availableQty,
+        // wholeSalePrice,
         image:image || ""
 
       }

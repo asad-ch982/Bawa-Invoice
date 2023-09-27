@@ -1,35 +1,30 @@
+
 /* eslint-disable no-useless-escape */
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { toast } from "react-toastify";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  getAllProductSelector,
-  getEditedIdForm,
-  setEditedId,
-  onConfirmEditProduct,
-} from "../../store/productSlice";
+import { getEditedIdForm,getAllAuthentication ,onConfirmEditAuth, setEditedId} from "../../store/authSlice";
 import ImageUpload from "../Common/ImageUpload";
 import {
   defaultInputInvalidStyle,
   defaultInputLargeStyle,
   defaultInputStyle,
 } from "../../constants/defaultStyles";
+import EyeCloseIcon from "../Icons/EyeCloseIcon";
 
 const emptyForm = {
-  id: "",
-  image: "",
-  productID: "",
-  name: "",
-  amount: 0,
-  // wholeSalePrice:0,
+  password: "",
+  ID: "",
+  type: "",
 };
 
-function ProductEditModal(props) {
+function SecurityEditModal(props) {
   const dispatch = useDispatch();
   const editedID = useSelector(getEditedIdForm);
-  const products = useSelector(getAllProductSelector);
+  const products = useSelector(getAllAuthentication);
   const [animate, setAnimate] = useState(true);
+  const [password, setPassword] = useState("password")
   const [productForm, setProductForm] = useState(emptyForm);
   const [isTouched, setIsTouched] = useState(false);
   const [validForm, setValidForm] = useState(
@@ -37,45 +32,25 @@ function ProductEditModal(props) {
       return { ...a, [b]: false };
     }, {})
   );
-  // const [Page, setPage] = useState(false)
 
-  // const fetched = async ()=>{
-  //     const token = JSON.parse(localStorage.getItem("Token"))
-  //     const response = await fetch("http://localhost:5000/security",{
-  //       method:'POST',
-      
-  //       headers:{
-  //         'content-type':'application/json'
-  //       },
-  //       body: JSON.stringify({token:token})
-  //     })
-  //     const json = await response.json()
-  //     if (json.success) {
-  //         setPage(true)
-  //     }
-  // }
-  
-  // useEffect(() => {
-  //     fetched()
-  // }, [])
   const onEditHandler = useCallback(() => {
     setIsTouched(true);
     const isValid = Object.keys(validForm).every((key) => validForm[key]);
 
     if (!isValid) {
-      toast.error("Invalid Client Form!", {
+      toast.error("Invalid  Form!", {
         position: "bottom-center",
         autoClose: 2000,
       });
       return;
     }
 
-    toast.success("Wow Successfully Update Product!", {
+    toast.success("Wow Successfully Update Authentication!", {
       position: "bottom-center",
       autoClose: 2000,
     });
 
-    dispatch(onConfirmEditProduct(productForm));
+    dispatch(onConfirmEditAuth(productForm));
     setIsTouched(false);
   }, [dispatch, validForm, productForm]);
 
@@ -87,31 +62,25 @@ function ProductEditModal(props) {
     });
   }, []);
 
-  const onChangeImage = useCallback((str) => {
-    setProductForm((prev) => ({ ...prev, image: str }));
-  }, []);
+
 
   const onCancelHandler = useCallback(() => {
     dispatch(setEditedId(null));
   }, [dispatch]);
 
-  const imageUploadClasses = useMemo(() => {
-    const defaultStyle = "rounded-xl ";
 
-    if (!productForm.image) {
-      return defaultStyle + " border-dashed border-2 border-indigo-400 ";
+const handleEye =()=>{
+    if (password==="password") {
+        setPassword("text")
+    }else if (password==="text") {
+        setPassword("password")
     }
-
-    return defaultStyle;
-  }, [productForm]);
-
+}
   useEffect(() => {
       setValidForm((prev) => ({
-        id: true,
-        image: true,
-        name: productForm?.name?.trim() ? true : false,
-        amount: productForm?.amount <= 0 ? false : true,
-        // wholeSalePrice: productForm?.wholeSalePrice <= 0 ? false : true,
+        ID: true,
+        password: true,
+        type: true
       }));
   }, [productForm]);
 
@@ -119,7 +88,7 @@ function ProductEditModal(props) {
     if (editedID !== null) {
       setAnimate(true);
       const isFindIndex = products.findIndex(
-        (client) => client.slug === editedID
+        (client) => client._id === editedID
       );
       if (isFindIndex !== -1) {
         setProductForm({ ...products[isFindIndex] });
@@ -159,36 +128,15 @@ function ProductEditModal(props) {
                       className="text-lg leading-6 font-medium text-gray-900"
                       id="modal-title"
                     >
-                      Edited Product Form
+                      Edited User Form
                     </h3>
                     <div className="mt-2">
                       {/*  */}
                       <div className="bg-white rounded-xl mt-4">
-                        <div className="flex mt-2">
-                          <ImageUpload
-                            keyName="QuickEditImageUpload"
-                            className={imageUploadClasses}
-                            url={productForm.image}
-                            onChangeImage={onChangeImage}
-                          />
-
-                          <div className="flex-1 pl-3">
-                            <div>
-                              <input
-                                autoComplete="nope"
-                                value={productForm.productID}
-                                placeholder="Product ID"
-                                className={defaultInputLargeStyle}
-                                onChange={(e) =>
-                                  handlerProductValue(e, "productID")
-                                }
-                              />
-                            </div>
-                          </div>
-                        </div>
+                     
                         <div className="mt-2">
                           <div className="font-title text-sm text-default-color">
-                            Product Name
+                           User ID
                           </div>
                           <div className="flex">
                             <div className="flex-1">
@@ -201,15 +149,15 @@ function ProductEditModal(props) {
                                     ? defaultInputInvalidStyle
                                     : defaultInputStyle
                                 }
-                                value={productForm.name}
-                                onChange={(e) => handlerProductValue(e, "name")}
+                                value={productForm.ID}
+                                onChange={(e) => handlerProductValue(e, "ID")}
                               />
                             </div>
                           </div>
                         </div>
                         <div className="mt-2">
                           <div className="font-title text-sm text-default-color">
-                            Available Qty
+                           Type
                           </div>
                           <div className="flex">
                             <div className="flex-1">
@@ -217,63 +165,45 @@ function ProductEditModal(props) {
                                 autoComplete="nope"
                                 placeholder="Product Name"
                                 type="text"
+                                readOnly
                                 className={
                                   !validForm.name && isTouched
                                     ? defaultInputInvalidStyle
                                     : defaultInputStyle
                                 }
-                                value={productForm.availableQty}
-                                onChange={(e) => handlerProductValue(e, "availableQty")}
+                                value={productForm.type}
+                                onChange={(e) => handlerProductValue(e, "type")}
                               />
                             </div>
                           </div>
                         </div>
                         <div className="mt-2">
                           <div className="font-title text-sm text-default-color">
-                            Product Amount
+                            Password
                           </div>
                           <div className="flex">
                             <div className="flex-1">
                               <input
                                 autoComplete="nope"
                                 placeholder="Amount"
-                                type="number"
+                                type={password}
                                 className={
                                   !validForm.amount && isTouched
                                     ? defaultInputInvalidStyle
                                     : defaultInputStyle
                                 }
-                                value={productForm.amount}
+                                value={productForm.password}
                                 onChange={(e) =>
-                                  handlerProductValue(e, "amount")
+                                  handlerProductValue(e, "password")
                                 }
-                              />
+                              >
+                           
+                                </input>
+                                <div   onClick={handleEye} className="flex justify-end text-gray-400 hover:text-gray-600 cursor-pointer" >Show Password </div>
+                              
                             </div>
                           </div>
                         </div>
-                     {/* {Page &&   <div className="mt-2">
-                          <div className="font-title text-sm text-default-color">
-                            WholeSale Amount
-                          </div>
-                          <div className="flex">
-                            <div className="flex-1">
-                              <input
-                                autoComplete="nope"
-                                placeholder="wholeSalePrice"
-                                type="number"
-                                className={
-                                  !validForm.amount && isTouched
-                                    ? defaultInputInvalidStyle
-                                    : defaultInputStyle
-                                }
-                                value={productForm.wholeSalePrice}
-                                onChange={(e) =>
-                                  handlerProductValue(e, "wholeSalePrice")
-                                }
-                              />
-                            </div>
-                          </div>
-                        </div>} */}
                       </div>
                       {/*  */}
                     </div>
@@ -304,4 +234,4 @@ function ProductEditModal(props) {
   ) : null;
 }
 
-export default ProductEditModal;
+export default SecurityEditModal;

@@ -14,7 +14,7 @@ import {
   setAllInvoiceDetailList,
   updateNewInvoiceForm,
 } from "../store/invoiceSlice";
-import {getAuthNo,Chart,setChartData} from "../store/authSlice"
+import {getAuthNo,Chart,setChartData,setAuthentication} from "../store/authSlice"
 import { setAllProducts, updateNewProductForm } from "../store/productSlice";
 
 const useInitApp = () => {
@@ -163,6 +163,22 @@ const json = await response.json()
   return detail
   }
 
+  const getAuthentication = async ()=>{
+    const token = JSON.parse(localStorage.getItem("Token"))
+    const response = await fetch(`${process.env.REACT_APP_PROXY}/security`,{
+      method:'POST',
+    
+      headers:{
+        'content-type':'application/json'
+      },
+      body: JSON.stringify({token:token})
+    })
+    const json = await response.json()
+    const data = json.auth
+    return data
+ 
+}
+
   const initialSetData = useCallback(async () => {
 
     try {
@@ -173,6 +189,7 @@ const json = await response.json()
       const invoiceDetailList= await getinvoicedetail()
       const unpaid = await getUnpaidInvoices()
       const chart = await handleMonth()
+      const authentication = await getAuthentication()
       const [
         // companyData,
         clientNewForm,
@@ -197,11 +214,13 @@ const json = await response.json()
         localforage.getItem(DEFAULT_INVOICE_BG),
       ]);
 
+      if (authentication) {
+        dispatch(setAuthentication(authentication));
+      }
       if (companyData) {
         dispatch(updateCompanyData(companyData));
       }
       if (chart) {
-        console.log(chart)
         dispatch(setChartData(chart));
       }
       if (unpaid) {

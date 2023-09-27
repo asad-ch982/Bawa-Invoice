@@ -99,6 +99,7 @@ function InvoiceDetailScreen(props) {
 
 
   const handleExport = useCallback(() => {
+    if (params.id!=="new") {
     if (showNavbar) {
       toggleNavbar();
     }
@@ -108,6 +109,7 @@ function InvoiceDetailScreen(props) {
     setTimeout(() => {
       handlePrint();
     }, 3000);
+  }
   }, [handlePrint, setEscapeOverflow, showNavbar, toggleNavbar]);
 
   const handleDownloadImg = useCallback(() => {
