@@ -6,9 +6,16 @@ import { defaultSkeletonNormalStyle } from "../../constants/defaultStyles";
 import Skeleton from "react-loading-skeleton";
 import DatePicker from "react-datepicker";
 import moment from "moment";
+import { getClosingTableData ,setClosingTableData,setClosingDeatail,getClosingDetail} from "../../store/invoiceSlice";
+import { useSelector, useDispatch } from "react-redux";
+
+
 const ClosingTable=()=> {
     const { initLoading: isInitLoading, showNavbar, toggleNavbar, setEscapeOverflow } =
     useAppContext();
+    const dispact = useDispatch()
+    const ClosingData = useSelector(getClosingTableData)
+    const ClosingDetail = useSelector(getClosingDetail)
     var d = new Date(Date.now());
     const date= d.toLocaleDateString('en-GB');
 const [productDetail, setProductDetail] = useState({})
@@ -28,7 +35,9 @@ const fetchData = async()=>{
       });
   
       const json = await response.json();
-      setProductDetail(json.detail)
+      dispact(setClosingTableData(json.detail))
+      dispact(setClosingDeatail(json))
+
       setEscapeOverflow(false)
     } catch (error) {
         console.log(error)
@@ -36,10 +45,10 @@ const fetchData = async()=>{
     }
     }
 
-    useEffect(() => {
-    fetchData()
+    // useEffect(() => {
+    // fetchData()
     
-    }, [])
+    // }, [])
 
 
     const componentRef = useRef(null);
@@ -63,13 +72,12 @@ const fetchData = async()=>{
       }, [handlePrint, setEscapeOverflow, showNavbar, toggleNavbar]);
       const handlerstart = (date) => {
         setStart(moment(date).format("DD/MM/YYYY"));
-        console.log(start)
         setStartDate(date);
       };
     
     return (
         <>
-        <div className="mb-4 flex justify-between">
+        <div className="mb-4 flex">
         <div className="flex mt-2">
         From:
         <div className="flex-1">
@@ -85,28 +93,34 @@ const fetchData = async()=>{
           )}
         </div>
       </div>
-      <button onClick={fetchData} className="py-2 px-6 bg-red-600 text-white rounded-md items-center">Fetch</button>
+      <button onClick={fetchData} className="py-3 px-8 mx-4 bg-blue-500 text-white text-sm rounded-3xl items-center ButtonAni">Fetch</button>
         </div>
             <div ref={componentRef} className="w-full sm:px-6">
               
                 <div className="bg-white shadow px-4 md:px-10 pt-4 md:pt-7 pb-5 overflow-y-auto">
+                {ClosingDetail &&  <div className="flex justify-between mx-20 border-b-4 border-black py-2 mb-6">
+                    <div className="text-black font-bold ">Total Amount : Rs {ClosingDetail.sum}</div>
+                    <div className="text-black font-bold ">Total Products : {ClosingDetail.TotalProducts}</div>
+                    <div className="text-black font-bold ">Closing Date : {ClosingDetail.date}</div>
+
+                  </div>}
                     <table className="w-full whitespace-nowrap">
                         <thead>
                         
-                            <tr className="h-16 w-full text-sm leading-none text-gray-800">
-                                <th className="font-normal text-left pl-4">Sr #</th>
-                                <th className="font-normal text-left pl-12">Product Name</th>
-                                <th className="font-normal text-left pl-12">Quantity</th>
-                                <th className="font-normal text-left pl-20">Product Amount</th>
-                                <th className="font-normal text-left pl-20">ProductID</th>
-                                <th className="font-normal text-left pl-20">Total Amount</th>
+                            <tr className="h-16 w-full text-sm leading-none text-black">
+                                <th className="font-semibold text-left pl-4">Sr #</th>
+                                <th className="font-semibold text-left pl-12">Product Name</th>
+                                <th className="font-semibold text-left pl-12">Quantity</th>
+                                <th className="font-semibold text-left pl-20">Product Amount</th>
+                                <th className="font-semibold text-left pl-20">ProductID</th>
+                                <th className="font-semibold text-left pl-20">Total Amount</th>
                             </tr>
                         </thead>
                         <tbody className="w-full">
-                       {productDetail && Object.keys(productDetail).map((slug, index) => {
-                const objectData = productDetail[slug];
+                       {ClosingData && Object.keys(ClosingData).map((slug, index) => {
+                const objectData = ClosingData[slug];
      
-                return  <tr key={slug} className="h-20 text-sm leading-none text-gray-800 bg-white hover:bg-gray-100 border-b border-t border-gray-100">
+                return  <tr key={slug} className="h-20 text-sm leading-none text-black bg-white hover:bg-gray-100  border-t border-gray-100">
                                 <td className="pl-4 cursor-pointer">
                                 <p className="text-sm font-medium leading-none text-gray-800">{slug}</p>
                                 </td>
@@ -123,16 +137,16 @@ const fetchData = async()=>{
                                   
                                 </td>
                                 <td className="pl-12">
-                                    <p className="font-medium">{objectData.quantity}</p>
+                                    <p className="font-medium text-center">{objectData.quantity}</p>
                                 </td>
                                 <td className="pl-20">
-                                    <p className="font-medium">{objectData.amount}</p>
+                                    <p className="font-medium text-center">{objectData.amount}</p>
                                 </td>
                                 <td className="pl-20">
-                                    <p className="font-medium">{objectData.productID}</p>
+                                    <p className="font-medium text-center">{objectData.productID==="" ? "-------":objectData.productID}</p>
                                 </td>
                                 <td className="pl-20">
-                                    <p className="font-medium">{objectData.amount *objectData.quantity }</p>
+                                    <p className="font-medium text-center">{objectData.amount *objectData.quantity }</p>
                                 </td>
                            
                             </tr>})}
@@ -142,7 +156,7 @@ const fetchData = async()=>{
                 </div>
             </div>
             <div className="mt-4 w-full container mx-10">
-          {productDetail &&  <button onClick={handleExport} className="py-2 px-6 bg-red-600 text-white rounded-md items-center">Print</button>}
+          {ClosingData &&  <button onClick={handleExport} className="py-3 px-8 mx-4 bg-blue-500 text-white text-sm rounded-3xl items-center ButtonAni">Print</button>}
            </div>
         </>
     );

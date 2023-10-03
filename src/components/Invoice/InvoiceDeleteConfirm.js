@@ -7,8 +7,9 @@ import {
   setDeleteId,
   onConfirmDeletedInvoice,
 } from "../../store/invoiceSlice";
-
+import useReloadInvoice from "../../hook/useReloadInvoice";
 function InvoiceDeleteConfirm(props) {
+  const { reloadData } = useReloadInvoice();
   const dispatch = useDispatch();
   const deletedID = useSelector(getDeletedInvoiceForm);
   const [animate, setAnimate] = useState(true);
@@ -19,6 +20,9 @@ function InvoiceDeleteConfirm(props) {
       position: "bottom-center",
       autoClose: 2000,
     });
+    setTimeout(() => {
+      reloadData();
+    }, 10000);
   }, [dispatch]);
 
   const onCancelHandler = useCallback(() => {

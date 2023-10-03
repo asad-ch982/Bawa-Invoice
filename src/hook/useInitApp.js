@@ -13,9 +13,12 @@ import {
   setAllUnpaidInvoice,
   setAllInvoiceDetailList,
   updateNewInvoiceForm,
+  setClosingTableData,
+  setClosingDeatail,
 } from "../store/invoiceSlice";
 import {getAuthNo,Chart,setChartData,setAuthentication} from "../store/authSlice"
 import { setAllProducts, updateNewProductForm } from "../store/productSlice";
+import moment from "moment";
 
 const useInitApp = () => {
   const dispatch = useDispatch();
@@ -178,11 +181,33 @@ const json = await response.json()
     return data
  
 }
+const getClosing = async()=>{
+  try {
+   const token = JSON.parse(localStorage.getItem("Token"))
+   var d = new Date(Date.now());
+   const start = moment(d).format("DD/MM/YYYY")
+   const response = await fetch(`${process.env.REACT_APP_PROXY}/closing`, {
+       method: "POST",
+ 
+       headers: {
+         "content-type": "application/json",
+       },
+       body: JSON.stringify({date:start,token:token }),
+     });
+ 
+     const json = await response.json();
+    //  console.log(json.detail)
+     return json
+   } catch (error) {
+       console.log(error)
+   }
+   }
 
   const initialSetData = useCallback(async () => {
 
     try {
       const invoices = await getInvoices()
+      const closing = await getClosing()
       const products = await getProducts()
       const companyData = await getcompany()
       const clients = await getclients()
@@ -216,6 +241,11 @@ const json = await response.json()
 
       if (authentication) {
         dispatch(setAuthentication(authentication));
+      }
+      if (closing) {
+        dispatch(setClosingTableData(closing.detail));
+        dispatch(setClosingDeatail(closing));
+
       }
       if (companyData) {
         dispatch(updateCompanyData(companyData));

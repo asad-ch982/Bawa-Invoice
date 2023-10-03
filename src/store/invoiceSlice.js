@@ -37,6 +37,8 @@ const initialState = {
     dueDate: new Date(),
     createdDate: new Date(),
     currencyUnit: "Rs",
+    closingTable:{},
+    closingDetail:{},
     clientDetail: {
       id: "",
       name: "",
@@ -135,6 +137,24 @@ export const invoiceSlice = createSlice({
 
     setAllInvoiceDetailList: (state, action) => {
       state.detailList = [...action.payload];
+    },
+    setClosingDeatail: (state, action) => {
+      let sum = 0;
+      // Iterate through the objects and add their 'amount' values to the sum
+      for (const key in action.payload.detail) {
+        if (action.payload.detail.hasOwnProperty(key)) {
+          sum += action.payload.detail[key].amount *action.payload.detail[key].quantity  ;
+        }
+      }     
+         const TotalProducts = Object.keys(action.payload.detail).length
+         
+            state.closingDetail = {TotalProducts:TotalProducts,
+              sum:sum,date:action.payload.date}
+    },
+    setClosingTableData: (state, action) => {
+
+
+      state.closingTable = action.payload;
     },
 
     setNewInvoices: (state, action) => {
@@ -307,7 +327,9 @@ export const {
   setDeleteId,
   setEditedId,
   setSettingModalOpen,
+  setClosingTableData,
   setConfirmModalOpen,
+  setClosingDeatail,
   setIsConfirm,
   onConfirmDeletedInvoice,
   onConfirmEditInvoice,
@@ -339,6 +361,9 @@ export const getDeletedInvoiceForm = (state) => state.invoices.deletedID;
 export const getInvoiceNewForm = (state) => state.invoices.newForm;
 
 export const getInvoiceSettingModal = (state) => state.invoices.settingOpen;
+
+export const getClosingTableData = (state) => state.invoices.closingTable;
+export const getClosingDetail = (state) => state.invoices.closingDetail;
 
 export const getIsInvoiceConfirmModal = (state) =>
   state.invoices.isConfirmModal;

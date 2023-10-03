@@ -171,3 +171,10 @@ br {
 @media print {
          display:block
       }
+
+.ButtonAni {
+  transition: all ease 0.2s
+}
+.ButtonAni:active{
+  scale:0.8
+}
