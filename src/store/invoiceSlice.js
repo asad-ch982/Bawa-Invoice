@@ -38,6 +38,7 @@ const initialState = {
     createdDate: new Date(),
     currencyUnit: "Rs",
     closingTable:{},
+    time:"00:00",
     closingDetail:{},
     clientDetail: {
       id: "",

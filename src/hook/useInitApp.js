@@ -214,7 +214,6 @@ const getClosing = async()=>{
       const invoiceDetailList= await getinvoicedetail()
       const unpaid = await getUnpaidInvoices()
       const chart = await handleMonth()
-      const authentication = await getAuthentication()
       const [
         // companyData,
         clientNewForm,

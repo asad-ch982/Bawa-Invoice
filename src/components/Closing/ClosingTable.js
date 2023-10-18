@@ -8,6 +8,7 @@ import DatePicker from "react-datepicker";
 import moment from "moment";
 import { getClosingTableData ,setClosingTableData,setClosingDeatail,getClosingDetail} from "../../store/invoiceSlice";
 import { useSelector, useDispatch } from "react-redux";
+import NumberFormat from "react-number-format";
 
 
 const ClosingTable=()=> {
@@ -99,7 +100,13 @@ const fetchData = async()=>{
               
                 <div className="bg-white shadow px-4 md:px-10 pt-4 md:pt-7 pb-5 overflow-y-auto">
                 {ClosingDetail &&  <div className="flex justify-between mx-20 border-b-4 border-black py-2 mb-6">
-                    <div className="text-black font-bold ">Total Amount : Rs {ClosingDetail.sum}</div>
+                    <div className="text-black font-bold ">Total Amount : Rs    <NumberFormat
+                  value={ClosingDetail.sum}
+                  className=""
+                  displayType={"text"}
+                  thousandSeparator={true}
+                  renderText={(value, props) => <span {...props}>{value}</span>}
+                /></div>
                     <div className="text-black font-bold ">Total Products : {ClosingDetail.TotalProducts}</div>
                     <div className="text-black font-bold ">Closing Date : {ClosingDetail.date}</div>
 
@@ -140,13 +147,25 @@ const fetchData = async()=>{
                                     <p className="font-medium text-center">{objectData.quantity}</p>
                                 </td>
                                 <td className="pl-20">
-                                    <p className="font-medium text-center">{objectData.amount}</p>
+                                    <p className="font-medium text-center"> <NumberFormat
+                  value={objectData.amount}
+                  className=""
+                  displayType={"text"}
+                  thousandSeparator={true}
+                  renderText={(value, props) => <span {...props}>{value}</span>}
+                /></p>
                                 </td>
                                 <td className="pl-20">
                                     <p className="font-medium text-center">{objectData.productID==="" ? "-------":objectData.productID}</p>
                                 </td>
                                 <td className="pl-20">
-                                    <p className="font-medium text-center">{objectData.amount *objectData.quantity }</p>
+                                    <p className="font-medium text-center"> <NumberFormat
+                  value={objectData.amount *objectData.quantity }
+                  className=""
+                  displayType={"text"}
+                  thousandSeparator={true}
+                  renderText={(value, props) => <span {...props}>{value}</span>}
+                /></p>
                                 </td>
                            
                             </tr>})}

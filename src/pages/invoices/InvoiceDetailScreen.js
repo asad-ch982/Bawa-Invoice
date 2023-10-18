@@ -14,6 +14,7 @@ import NumberFormat from "react-number-format";
 import { toast } from "react-toastify";
 import domtoimage from "dom-to-image";
 import InvoiceTopBar from "../../components/Invoice/InvoiceTopBar";
+
 import {
   getAllInvoiceDetailSelector,
   getCurrentBGImage,
@@ -390,6 +391,7 @@ function InvoiceDetailScreen(props) {
       return;
     }
 
+
     setInvoiceForm((prev) => {
       const subTotalAmount = sumProductTotal(prev.products);
       const amount = (10 / 100) * subTotalAmount;
@@ -433,6 +435,28 @@ function InvoiceDetailScreen(props) {
     });
   }, []);
 
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      // This code will run every second
+      if (params.id==="new") {
+        handleTime()
+     }
+    }, 5000); // 1000 milliseconds = 1 second
+
+    // Clean up the interval when the component unmounts
+    return () => clearInterval(intervalId);
+  }, []); // The empty dependency array ensures this effect runs only once
+const handleTime= async()=>{
+  const now =  new Date();
+  const hours =  now.getHours().toString().padStart(2, '0');
+  const minutes =  now.getMinutes().toString().padStart(2, '0');
+  const timeFormatted =  `${hours}:${minutes}`;
+     
+  const ki = "time"
+  setInvoiceForm((prev) => {
+    return { ...prev, [ki]: timeFormatted };
+  });
+}
   const onDeleteTax = useCallback((taxID) => {
     setInvoiceForm((prev) => {
       const updateTaxes = prev.taxes.filter((prod) => prod.id !== taxID);
@@ -449,6 +473,7 @@ function InvoiceDetailScreen(props) {
 
   const saveAs = useCallback(
     (status) => {
+      handleTime()
       setStatusData({
         statusIndex: status === "Draft" ? "1" : status === "Unpaid" ? "2" : "3",
         statusName: status,
@@ -865,6 +890,25 @@ const putInvoiceNo =()=>{
                   />
                 </div>
               </div>
+          
+                <div className="flex flex-row justify-between items-center mb-1">
+                  <div className="font-title flex-1"> Time</div>
+                  <div className="font-title flex-1 text-right">
+                  <input
+                      autoComplete="nope"
+                      placeholder="00:00"
+                      disabled={true}
+                      className={
+                        !isViewMode
+                          ? defaultInputSmStyle + " border-gray-300 text-right"
+                          : " text-right bg-white"
+                      }
+                      value={invoiceForm?.time}
+                      onChange={handleTime}
+                    />
+                  </div>
+                </div>
+        
               {!isViewMode && (
                 <div className="flex flex-row justify-between items-center mb-1">
                   <div className="font-title flex-1"> Change Currency </div>
