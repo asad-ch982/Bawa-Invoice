@@ -1,5 +1,6 @@
 import React from "react";
 import PageTitle from "../../components/Common/PageTitle";
+import ProductPrint from "../../components/Product/ProductPrint";
 import ProductTable from "../../components/Product/ProductTable";
 import QuickAddProduct from "../../components/Product/QuickAddProduct";
 
@@ -16,6 +17,7 @@ function ProductListScreen() {
         </div>
         <div className="w-full lg:w-2/6 pl-4 pr-4 sm:pl-4 sm:pr-2">
           <QuickAddProduct />
+        <div className="my-4"> <ProductPrint /></div> 
         </div>
       </div>
     </div>

@@ -114,7 +114,7 @@ const fetchData = async()=>{
                     <table className="w-full whitespace-nowrap">
                         <thead>
                         
-                            <tr className="h-16 w-full text-sm leading-none text-black">
+                            <tr className="h-10 w-full text-sm leading-none text-black">
                                 <th className="font-semibold text-left pl-4">Sr #</th>
                                 <th className="font-semibold text-left pl-12">Product Name</th>
                                 <th className="font-semibold text-left pl-12">Quantity</th>
@@ -127,7 +127,7 @@ const fetchData = async()=>{
                        {ClosingData && Object.keys(ClosingData).map((slug, index) => {
                 const objectData = ClosingData[slug];
      
-                return  <tr key={slug} className="h-20 text-sm leading-none text-black bg-white hover:bg-gray-100  border-t border-gray-100">
+                return  <tr key={slug} className="h-10 text-sm leading-none text-black bg-white hover:bg-gray-100  border-t border-gray-100">
                                 <td className="pl-4 cursor-pointer">
                                 <p className="text-sm font-medium leading-none text-gray-800">{slug}</p>
                                 </td>
