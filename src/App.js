@@ -1,4 +1,4 @@
-import { Route, Routes, Navigate, BrowserRouter } from "react-router-dom";
+import { Route, Routes, Navigate, BrowserRouter, Link } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { useEffect, useState } from "react";
 import DashboardScreen from "./pages/DashboardScreen";
@@ -114,7 +114,7 @@ const App = () => {
       {" "}
       <PageLoading />
       {loading && (
-        <div className="">
+        <div className="min-h-screen flex flex-col justify-between">
           <div className="md:w-1/3 mx-auto mt-20 items-center">
             <div className="text-center">
               <motion.span
@@ -175,6 +175,12 @@ const App = () => {
             </div>
           </div>
           <PageLoading />
+          <div className="md:w-1/3 mx-auto mt-20 items-center">
+            <div className="text-center mb-6 font-bold text-blue-500">
+              Powerd By <a className="underline" target="_blank" rel="noopener noreferrer" href="https://www.upwork.com/freelancers/~01b94bc120981432bb"> Usama</a>
+             
+            </div>
+          </div>
         </div>
       )}
       {AppOn && (
