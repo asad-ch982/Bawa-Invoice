@@ -61,7 +61,6 @@ function Sidebar() {
   const { showNavbar, initLoading, toggleNavbar } = useAppContext();
   const { pathname } = useLocation();
   const company = useSelector(getCompanyData);
-
   const onClickNavbar = useCallback(() => {
     const width = window.innerWidth;
 

@@ -1,4 +1,4 @@
-import { Route, Routes, Navigate, BrowserRouter, Link } from "react-router-dom";
+import { Route, Routes, Navigate, BrowserRouter, Link, Router } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { useEffect, useState } from "react";
 import DashboardScreen from "./pages/DashboardScreen";
@@ -29,11 +29,19 @@ import { useAppContext } from "./context/AppContext";
 import SecurityScreen from "./pages/security/SecurityScreen";
 import SecurityEditModal from "./components/Security/SecurityEditModal";
 import SecurityDeleteConfirm from "./components/Security/SecurityDeleteConfirm";
+import { deviceDetect,useDeviceData } from "react-device-detect";
+
 
 const App = () => {
+  // const devicedata =  deviceDetect()
+  // const devicedataq =  useDeviceData()
+
+  // console.log(devicedata,devicedataq
+  // )
   const dispatch = useDispatch();
   const { initLoading, showNavbar, toggleNavbar, setEscapeOverflow } =
     useAppContext();
+    
   const { initialSetData } = useInitApp();
   const [AppOn, setAppOn] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -44,6 +52,7 @@ const App = () => {
   const clicked = async () => {
     setEscapeOverflow(true);
     const response = await fetch(`${process.env.REACT_APP_PROXY}/getauth`, {
+    
       method: "POST",
 
       headers: {
@@ -67,6 +76,7 @@ const App = () => {
   };
   const check = async (token) => {
     const response = await fetch(`${process.env.REACT_APP_PROXY}/verifyauth`, {
+  
       method: "POST",
 
       headers: {
@@ -76,13 +86,17 @@ const App = () => {
     });
 
     const json = await response.json();
-    if (json.type === "SALESMAN" || json.type === "ADMIN") {
+    if (json.success) {
       localStorage.setItem("Token", JSON.stringify(json.token));
       dispatch(setAuthNo(json));
       initialSetData();
       setEscapeOverflow(false);
       setAppOn(true);
-    } else {
+    } else if (!json.success) {
+      localStorage.removeItem("Token")
+      setLoading(true);
+      setEscapeOverflow(false);
+    }else {
       setEscapeOverflow(false);
       alert("WRONG AUTHENTICATION");
     }
