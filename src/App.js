@@ -148,7 +148,7 @@ const App = () => {
                 <span className="nav-loading">
                   <InvoiceNavbarLoading loop />
                 </span>
-                Bawa Vapes Admin Panel
+                {process.env.REACT_APP_COMPANY} Admin Panel
               </motion.span>
             </div>
 

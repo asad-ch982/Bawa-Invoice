@@ -1496,7 +1496,7 @@ const putInvoiceNo =()=>{
          <div    className='special hidden ' id="printThis">
         <div ref={componentRef} className="bg-white rounded-lg  px-6  max-w-md mx-auto ">
     {/* <h1 className="font-bold text-2xl my-2 text-center text-black">{invoiceForm?.companyDetail?.companyName || "Company Name"}</h1> */}
-    <h1 className="font-bold text-2xl my-2 text-center text-black"><img className="pt-4" src={imageData[1].base64} alt="" /></h1>
+    <h1 className="font-bold text-2xl my-2 text-center text-black"><img className="pt-4" src={imageData[process.env.REACT_APP_LOGO].base64} alt="" /></h1>
     <h1 className=" text my-2 text-center font-bold text-black">{invoiceForm?.companyDetail?.billingAddress || "Company Name"}</h1>
     <h1 className=" text my-2 text-center font-bold text-black">{invoiceForm?.companyDetail?.companyMobile || "Company Name"}</h1>
     <hr className="mb-2"/>
