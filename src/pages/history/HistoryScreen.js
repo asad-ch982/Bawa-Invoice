@@ -63,7 +63,7 @@ const HistoryScreen = () => {
       return;
     } else if (!getInvoiceDetail) {
       setEscapeOverflow(true);
-      const response = await fetch(`http://localhost:5000/historysale`, {
+      const response = await fetch(`${process.env.REACT_APP_PROXY}/historysale`, {
         method: "POST",
 
         headers: {
