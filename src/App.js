@@ -30,6 +30,7 @@ import SecurityScreen from "./pages/security/SecurityScreen";
 import SecurityEditModal from "./components/Security/SecurityEditModal";
 import SecurityDeleteConfirm from "./components/Security/SecurityDeleteConfirm";
 import { deviceDetect,useDeviceData } from "react-device-detect";
+import HistoryScreen from "./pages/history/HistoryScreen";
 
 
 const App = () => {
@@ -208,6 +209,7 @@ const App = () => {
               <Route path="products" element={<ProductListScreen />}></Route>
               <Route path="closing" element={<ClosingScreen />}></Route>
               <Route path="security" element={<SecurityScreen />}></Route>
+              <Route path="history" element={<HistoryScreen />}></Route>
 
               <Route path="invoices">
                 <Route path="" element={<InvoiceListScreen />} exact />

@@ -49,6 +49,10 @@ const NAV_DATA = [
     title: "Security",
     link: "security",
     Icon: SecurityIcon,
+  },{
+    title: "History",
+    link: "history",
+    Icon: SecurityIcon,
   }
 ];
 
