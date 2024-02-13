@@ -22,6 +22,7 @@ const emptyForm = {
   productID: "",
   name: "",
   amount: 0,
+  category:""
   // wholeSalePrice:0,
 };
 
@@ -251,6 +252,36 @@ function ProductEditModal(props) {
                             </div>
                           </div>
                         </div>
+
+
+                                          <div className="mt-2">
+                          <div className="font-title text-sm text-default-color">
+                            Product Category
+                          </div>
+                          <div className="flex">
+                            <div className="flex-1">
+                        
+                    <select
+                      className={
+                        !validForm.category && isTouched
+                        ? defaultInputInvalidStyle
+                        : defaultInputStyle
+                      }
+                      value={productForm.category}
+                      onChange={(e) => handlerProductValue(e, "category")}
+                    >
+                      <option value="">Select Category</option>
+                      <option value="Liquids">Liquids</option>
+                      <option value="Hardware">Hardware</option>
+                      <option value="Accessories">Accessories</option>
+                    </select>
+               
+
+                            </div>
+                          </div>
+                        </div>
+
+                      
                      {/* {Page &&   <div className="mt-2">
                           <div className="font-title text-sm text-default-color">
                             WholeSale Amount

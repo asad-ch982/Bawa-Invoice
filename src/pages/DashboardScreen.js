@@ -32,15 +32,15 @@ const reset =()=>{
       <div className="flex flex-wrap">
         <div className="w-full lg:w-4/6 pl-4 pr-4 sm:pl-4 sm:pr-0 mb-4 sm:mb-1">
           <DashboardWidgets />
-          <div className="mt-1">
+          {/* <div className="mt-1">
             <WeeklyChart/>
-          </div>
+          </div> */}
           <div className="mt-1">
             <InvoiceTable key={seed} />
           </div>
-          <div className="mt-4">
+          {/* <div className="mt-4">
             <ClientTable />
-          </div>
+          </div> */}
         </div>
         <div className="w-full lg:w-2/6 pl-4 pr-4 sm:pl-4 sm:pr-2">
           <div>
@@ -49,10 +49,13 @@ const reset =()=>{
               <span className="inline-block ml-2"> Add New Invoice </span>
             </Button>
           </div>
-
-          <QuickEditCompany isShowDetail={false} />
           <div className="mt-4">
+
         <CustomInvoice reset={reset}/>
+          </div>
+
+          <div className="mt-4">
+          <QuickEditCompany isShowDetail={false} />
           </div>
         </div>
       </div>

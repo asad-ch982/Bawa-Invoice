@@ -21,7 +21,7 @@ import ProductIDIcon from "../Icons/ProductIDIcon";
 import ProductIcon from "../Icons/ProductIcon";
 
 // Example items, to simulate fetching from another resources.
-const itemsPerPage = 6;
+const itemsPerPage = 12;
 const emptySearchForm = {
   name: "",
   email: "",
@@ -41,18 +41,26 @@ function ProductChoosenModal() {
 
   const products = useMemo(() => {
     let filterData = allProducts.length > 0 ? [...allProducts].reverse() : [];
+  
     if (searchForm.name?.trim()) {
+      const searchTerms = searchForm.name
+        .toLowerCase()
+        .split(' ')
+        .filter(term => term.trim() !== '');
+  
       filterData = filterData.filter((product) =>
-        product.name.includes(searchForm.name)
+        searchTerms.every(term =>
+          product.name.toLowerCase().includes(term)
+        )
       );
     }
-
+  
     if (searchForm.productID?.trim()) {
       filterData = filterData.filter((product) =>
-        product.productID.includes(searchForm.productID)
+        product.productID.toLowerCase().includes(searchForm.productID.toLowerCase())
       );
     }
-
+  
     return filterData;
   }, [allProducts, searchForm]);
 

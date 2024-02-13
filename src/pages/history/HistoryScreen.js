@@ -96,7 +96,7 @@ const HistoryScreen = () => {
         <div className=" flex justify-between w-11/12 mx-auto  px-2 py-2">
           <div className="productSelector">
             <Button size="md" block={1} onClick={openChooseProduct}>
-              <InvoiceIcon style={IconStyle} className="w-5 h-5" />
+              <ProductIcon style={IconStyle} className="w-5 h-5" />
               {product ? product.name : "Choose Product"}
             </Button>
           </div>

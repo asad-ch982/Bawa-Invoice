@@ -19,9 +19,10 @@ import ProductIcon from "../Icons/ProductIcon";
 import ProductIDIcon from "../Icons/ProductIDIcon";
 import EmptyBar from "../Common/EmptyBar";
 import { useAppContext } from "../../context/AppContext";
+import Button from "../Button/Button";
 
 // Example items, to simulate fetching from another resources.
-const itemsPerPage = 10;
+const itemsPerPage = 15;
 const emptySearchForm = {
   name: "",
   productID: "",
@@ -34,25 +35,35 @@ function ProductTable({ showAdvanceSearch = false }) {
 
   const [searchForm, setSearchForm] = useState(emptySearchForm);
   const [currentItems, setCurrentItems] = useState(null);
+  
   const [pageCount, setPageCount] = useState(0);
   const [itemOffset, setItemOffset] = useState(0);
 
   const products = useMemo(() => {
     let filterData = allProducts.length > 0 ? [...allProducts].reverse() : [];
+  
     if (searchForm.name?.trim()) {
+      const searchTerms = searchForm.name
+        .toLowerCase()
+        .split(' ')
+        .filter(term => term.trim() !== '');
+  
       filterData = filterData.filter((product) =>
-        product.name.includes(searchForm.name)
+        searchTerms.every(term =>
+          product.name.toLowerCase().includes(term)
+        )
       );
     }
-
+  
     if (searchForm.productID?.trim()) {
       filterData = filterData.filter((product) =>
-        product.productID.includes(searchForm.productID)
+        product.productID.toLowerCase().includes(searchForm.productID.toLowerCase())
       );
     }
-
+  
     return filterData;
   }, [allProducts, searchForm]);
+  
 
   // Invoke when user click to request another page.
   const handlePageClick = (event) => {
@@ -251,6 +262,7 @@ function ProductTable({ showAdvanceSearch = false }) {
               nextLabel={">"}
               renderOnZeroPageCount={null}
             />
+          
           )}
         </div>
       </div>

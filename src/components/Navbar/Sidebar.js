@@ -14,6 +14,7 @@ import InvoiceNavbarLoading from "../Loading/InvoiceNavbarLoading";
 import { getCompanyData } from "../../store/companySlice";
 import Skeleton from "react-loading-skeleton";
 import Closing from "../Icons/Closing";
+import HistoryIcon from "../Icons/HistoryIcon";
 
 const NAV_DATA = [
   {
@@ -52,7 +53,7 @@ const NAV_DATA = [
   },{
     title: "History",
     link: "history",
-    Icon: SecurityIcon,
+    Icon: HistoryIcon,
   }
 ];
 

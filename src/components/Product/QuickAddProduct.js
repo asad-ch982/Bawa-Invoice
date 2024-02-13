@@ -31,7 +31,7 @@ const emptyForm = {
   // company:"",
   // color:"",
   // variant:"",
-  // category:"",
+  category:"",
   availableQty:""
 };
 
@@ -59,7 +59,6 @@ function QuickAddProduct() {
   const handlerProductValue = useCallback(
     (event, keyName) => {
       const value = event.target.value;
-
       setProductForm((prev) => {
         return { ...prev, [keyName]: value };
       });
@@ -224,33 +223,38 @@ function QuickAddProduct() {
           </div>
         </div>
       </div>
-     {/* <div className="mt-2">
+      
+      <div className="mt-2">
         <div className="font-title text-sm text-default-color">
           Product Category
         </div>
         <div className="flex">
           <div className="flex-1">
-            {isInitLoading ? (
-              <Skeleton className={defaultSkeletonNormalStyle} />
-            ) : (
-              <input
-                autoComplete="nope"
-                placeholder="Category"
-                type="text"
-                className={
-                  !validForm.category && isTouched
-                    ? defaultInputInvalidStyle
-                    : defaultInputStyle
-                }
-                disabled={isInitLoading}
-                value={productForm.category}
-                onChange={(e) => handlerProductValue(e, "category")}
-              />
-            )}
+          {isInitLoading ? (
+  <Skeleton className={defaultSkeletonNormalStyle} />
+) : (
+  <select
+    className={
+      !validForm.category && isTouched
+      ? defaultInputInvalidStyle
+      : defaultInputStyle
+    }
+    disabled={isInitLoading}
+    value={productForm.category}
+    onChange={(e) => handlerProductValue(e, "category")}
+  >
+    <option value="">Select Category</option>
+    <option value="Liquids">Liquids</option>
+    <option value="Hardware">Hardware</option>
+    <option value="Accessories">Accessories</option>
+  </select>
+)}
+
           </div>
         </div>
       </div>
-      <div className="mt-2">
+                 
+      {/* <div className="mt-2">
         <div className="font-title text-sm text-default-color">
           Product Variant
         </div>
@@ -301,8 +305,8 @@ function QuickAddProduct() {
             )}
           </div>
         </div>
-      </div> */}
-      {/* <div className="mt-2">
+      </div> 
+      <div className="mt-2">
         <div className="font-title text-sm text-default-color">
           Product WholeSale Price
         </div>
@@ -327,7 +331,7 @@ function QuickAddProduct() {
             )}
           </div>
         </div>
-      </div> */}
+      </div>  */}
       {/* <div className="mt-2">
         <div className="font-title text-sm text-default-color">
           Product Company

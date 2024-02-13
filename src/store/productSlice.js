@@ -66,7 +66,7 @@ export const productSlice = createSlice({
       const newDatas = [...state.data, action.payload];
       state.data = newDatas;
       localforage.setItem(PRODUCTS_KEY, newDatas);
-      const {slug,productID,name,amount,availableQty,image}=action.payload
+      const {slug,productID,name,amount,availableQty,image,category}=action.payload
      
       const data = {
         slug,
@@ -75,6 +75,7 @@ export const productSlice = createSlice({
         amount,
         availableQty,
         // wholeSalePrice,
+        category,
         image:image || ""
 
       }
@@ -90,7 +91,7 @@ export const productSlice = createSlice({
         // company:"",
         // color:"",
         // variant:"",
-        // category:"",
+        category:"",
         availableQty:""
       };
 
