@@ -26,6 +26,7 @@ const itemsPerPage = 15;
 const emptySearchForm = {
   name: "",
   productID: "",
+  category:""
 };
 
 function ProductTable({ showAdvanceSearch = false }) {
@@ -52,6 +53,13 @@ function ProductTable({ showAdvanceSearch = false }) {
         searchTerms.every(term =>
           product.name.toLowerCase().includes(term)
         )
+      );
+    }
+    if (searchForm.category?.trim()) {
+       console.log(searchForm)
+  
+      filterData = filterData.filter((product) =>
+      product.category && product.category.includes(searchForm.category)
       );
     }
   
@@ -132,6 +140,21 @@ function ProductTable({ showAdvanceSearch = false }) {
                 onChange={(e) => handlerSearchValue(e, "name")}
               />
             </div>
+            <div className="mb-2 sm:mb-0 sm:text-left text-default-color flex flex-row font-title flex-1 px-2">
+              <div className="h-12 w-12 rounded-2xl bg-gray-100 mr-2 flex justify-center items-center text-gray-400">
+                <ProductIcon />
+              </div>
+                          <select
+                value={searchForm.category}
+                className={defaultSearchStyle}
+                onChange={(e) => handlerSearchValue(e, "category")}
+              >
+                <option value="">Select Category</option>
+                <option value="Liquids">Liquids</option>
+                <option value="Hardware">Hardware</option>
+                <option value="Accessories">Accessories</option>
+              </select>
+            </div>
           </div>
         </div>
       )}
@@ -170,7 +193,7 @@ function ProductTable({ showAdvanceSearch = false }) {
                       />
                     ) : (
                       <span className="h-10 w-10 rounded-2xl bg-gray-100 flex justify-center items-center">
-                        <ProductIcon />
+                        <ProductIcon className={product.availableQty<=0?"text-red-500":""} />
                       </span>
                     )}
                     <span className="whitespace-nowrap text-ellipsis overflow-hidden pl-1">

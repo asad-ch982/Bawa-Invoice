@@ -200,7 +200,7 @@ function ProductChoosenModal() {
                                 />
                               ) : (
                                 <span className="h-10 w-10 rounded-2xl bg-gray-100 flex justify-center items-center">
-                                  <ProductIcon />
+                                  <ProductIcon className={product.availableQty<=0?"text-red-500":""}/>
                                 </span>
                               )}
                               <span className="whitespace-nowrap text-ellipsis overflow-hidden pl-1">
