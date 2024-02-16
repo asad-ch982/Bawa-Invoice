@@ -274,6 +274,7 @@ function ProductEditModal(props) {
                       <option value="Liquids">Liquids</option>
                       <option value="Hardware">Hardware</option>
                       <option value="Accessories">Accessories</option>
+                      <option value="Disposable">Disposable</option>
                     </select>
                
 

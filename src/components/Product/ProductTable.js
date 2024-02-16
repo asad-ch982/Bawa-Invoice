@@ -56,11 +56,19 @@ function ProductTable({ showAdvanceSearch = false }) {
       );
     }
     if (searchForm.category?.trim()) {
-       console.log(searchForm)
-  
-      filterData = filterData.filter((product) =>
+      if (searchForm.category==="cat") {
+       filterData =  filterData.filter((product) =>
+        !product.category
+       )
+      } else if (searchForm.category==="outOfStoked") {
+        filterData =  filterData.filter((product) =>
+        product.availableQty<=0
+        )
+
+      } else { filterData = filterData.filter((product) =>
       product.category && product.category.includes(searchForm.category)
       );
+      }
     }
   
     if (searchForm.productID?.trim()) {
@@ -153,6 +161,9 @@ function ProductTable({ showAdvanceSearch = false }) {
                 <option value="Liquids">Liquids</option>
                 <option value="Hardware">Hardware</option>
                 <option value="Accessories">Accessories</option>
+                <option value="Disposable">Disposable</option>
+                <option value="cat">Not Categorized</option>
+                <option value="outOfStoked">Out of Stoked</option>
               </select>
             </div>
           </div>
